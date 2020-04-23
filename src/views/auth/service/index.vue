@@ -3,9 +3,10 @@
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="姓名或账户" v-model="listQuery.name"> </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="serviceManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <el-button type="primary" v-if="serviceManager_btn_clientManager" @click="handlerClient">
-          <icon-svg icon-class="27"></icon-svg>授权服务</el-button>
+      <el-button class="filter-item" type="primary" v-waves icon="edit" @click="handleCreate" v-if="serviceManager_btn_add">添加</el-button>
+      <el-button class="filter-item" type="primary" v-waves @click="handlerClient" v-if="serviceManager_btn_clientManager">
+          <icon-svg icon-class="27"></icon-svg>授权服务
+      </el-button>
    </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading"  @current-change="handleDataCurrentChange" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="id" width="65">

@@ -128,7 +128,7 @@ export const asyncRouterMap = [{
   children: [{
     path: 'serviceEurekaManager',
     component: _import('monitor/eureka/index'),
-    name: 'Eureka注册中心',
+    name: '服务注册中心',
     authority: 'serviceEurekaManager'
   }, {
     path: 'serviceMonitorManager',
@@ -138,7 +138,12 @@ export const asyncRouterMap = [{
   }, {
     path: 'serviceZipkinManager',
     component: _import('monitor/zipkin/index'),
-    name: '服务状态监控',
+    name: '服务链路监控',
     authority: 'serviceZipkinManager'
+  }, {
+    path: 'serviceSentinelManager',
+    component: _import('monitor/sentinel/index'),
+    name: '服务流量哨兵',
+    authority: 'serviceSentinelManager'
   }]
 }];
