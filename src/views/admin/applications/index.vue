@@ -145,9 +145,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   img: [
@@ -157,9 +157,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   href: [
@@ -170,8 +170,8 @@
   },
   {
     min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
+    max: 50,
+    message: '长度在 3 到 50 个字符',
     trigger: 'blur'
   }
 ],   addtime: [
@@ -181,9 +181,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   tishi: [
@@ -193,9 +193,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   appid: [
@@ -205,9 +205,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   secret: [
@@ -217,9 +217,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   databasename: [
@@ -229,9 +229,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
+    min: 1,
+    max: 200,
+    message: '长度在 1 到 200 个字符',
     trigger: 'blur'
   }
 ],   databasepassword: [
@@ -241,9 +241,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ],   databasecon: [
@@ -253,9 +253,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
+    min: 1,
+    max: 200,
+    message: '长度在 1 到 200 个字符',
     trigger: 'blur'
   }
 ],   qyflag: [
@@ -265,9 +265,9 @@
     trigger: 'blur'
   },
   {
-    min: 3,
+    min: 1,
     max: 20,
-    message: '长度在 3 到 20 个字符',
+    message: '长度在 1 到 20 个字符',
     trigger: 'blur'
   }
 ]        },
