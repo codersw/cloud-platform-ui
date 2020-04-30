@@ -6,7 +6,8 @@ export function loginByEmail(username, password) {
     password
   };
   return fetch({
-    url: '/api/auth/jwt/token',
+    //url: '/api/auth/jwt/token',
+    url: '/api/auth/jwt/v1/token',
     method: 'post',
     data
   });
@@ -22,7 +23,8 @@ export function logout(token) {
 
 export function getInfo(token) {
   return fetch({
-    url: '/api/admin/user/front/info',
+    //url: '/api/admin/user/front/info',
+    url: '/api/admin/user/v1/front/info',
     method: 'get',
     params: { token }
   });
@@ -30,7 +32,8 @@ export function getInfo(token) {
 
 export function getMenus(token) {
   return fetch({
-    url: '/api/admin/user/front/menus',
+    //url: '/api/admin/user/front/menus',
+    url: '/api/admin/user/v1/front/menus',
     method: 'get',
     params: { token }
   });

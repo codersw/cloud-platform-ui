@@ -81,6 +81,12 @@ export const asyncRouterMap = [{
     name: '用户管理',
     authority: 'userManager'
   }, {
+      path: 'userManager_v1',
+      icon: 'fa-user',
+      component: _import('admin/user/v1/index'),
+      name: '用户管理V1',
+      authority: 'userManager_v1'
+    }, {
     path: 'menuManager',
     icon: 'category',
     component: _import('admin/menu/index'),
@@ -109,7 +115,18 @@ export const asyncRouterMap = [{
     component: _import('admin/applications/index'),
     name: '三方应用管理',
     authority: 'applicationsManager'
-  }]
+  }, {
+    path: 'sysCodelistManager',
+    component: _import('admin/sysCodelist/index'),
+    name: '字典码管理',
+    authority: 'sysCodelistManager'
+  }, {
+      path: 'deptManager',
+      component: _import('admin/dept/index'),
+      name: '部门管理',
+      authority: 'deptManager'
+    },
+  ]
 },
 {
   path: '/authManager',
