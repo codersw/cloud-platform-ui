@@ -71,24 +71,20 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-form-item label="部门名称" prop="name">
-      <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
-    </el-form-item>
-        <el-form-item label="父级id" prop="pid">
-      <el-input v-model="form.pid" placeholder="请输入父级id"></el-input>
-    </el-form-item>
+          <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
+        </el-form-item>
         <el-form-item label="添加时间" prop="addtime">
-      <el-input v-model="form.addtime" placeholder="请输入添加时间"></el-input>
-    </el-form-item>
-        <el-form-item label="是否启用0未启用 1启用" prop="status">
-      <el-input v-model="form.status" placeholder="请输入是否启用0未启用 1启用"></el-input>
-    </el-form-item>
-        <el-form-item label="与企业微信同步0未同步1成功2失败" prop="synchronous">
-      <el-input v-model="form.synchronous" placeholder="请输入与企业微信同步0未同步1成功2失败"></el-input>
-    </el-form-item>
-        </el-form>
+          <el-input v-model="form.addtime" placeholder="请输入添加时间"></el-input>
+        </el-form-item>
+        <el-form-item label="是否启用" prop="status">
+          <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
+            <el-option v-for="item in yesNoOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
+        <el-button v-if="dialogStatus === 'create'" type="primary" @click="create('form')">确 定</el-button>
         <el-button v-else type="primary" @click="update('form')">确 定</el-button>
       </div>
     </el-dialog>
@@ -96,7 +92,7 @@
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj } from 'api/admin/dept/index';
+  import { page, addObj, getObj, delObj, putObj, codeList } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
@@ -127,11 +123,15 @@
           update: '编辑',
           create: '创建'
         },
-        tableKey: 0
+        tableKey: 0,
+        yesNoOptions: [],
       }
     },
     created() {
       this.getList();
+      codeList('YES_NO').then(res => {
+        this.yesNoOptions = res;
+      });
       this.deptManager_btn_edit = this.elements['deptManager:btn_edit'];
       this.deptManager_btn_del = this.elements['deptManager:btn_del'];
       this.deptManager_btn_add = this.elements['deptManager:btn_add'];

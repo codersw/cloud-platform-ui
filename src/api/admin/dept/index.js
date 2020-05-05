@@ -37,3 +37,10 @@ export function putObj(id, obj) {
     data: obj
   })
 }
+
+export function codeList(kindcode) {
+  return fetch({
+    url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
+    method: 'get'
+  })
+}
