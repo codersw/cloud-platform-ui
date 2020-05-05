@@ -44,3 +44,10 @@ export function codeList(kindcode) {
     method: 'get'
   })
 }
+
+export function deptList(pid) {
+  return fetch({
+    url: '/api/admin/dept/listByPid?pid=' + pid ,
+    method: 'get'
+  });
+}

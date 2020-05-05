@@ -4,6 +4,12 @@
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.username"> </el-input>
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="工号" v-model="listQuery.account"> </el-input>
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="手机" v-model="listQuery.phoneNumber"> </el-input>
+      <el-select style="width: 200px;" class="filter-item" placeholder="中心" v-model="listQuery.centerId" @change="changeChildDept" >
+        <el-option v-for="dept in deptList" :key="dept.id" :label="dept.name" :value="dept.id" > </el-option>
+      </el-select>
+      <el-select class="filter-item" style="width: 200px;" placeholder="部门" v-model="listQuery.deptId">
+        <el-option v-for="dept in deptChildList" :key="dept.id" :label="dept.name" :value="dept.id"> </el-option>
+      </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
@@ -58,12 +64,12 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-form-item label="工号" prop="account">
-          <el-input v-model="form.account" placeholder="请输入工号"></el-input>
+          <el-input v-model="form.account" :readonly="dialogStatus !== 'create'" placeholder="请输入工号"></el-input>
         </el-form-item>
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="密码" prop="password" v-if="dialogStatus === 'create'">
           <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
@@ -102,7 +108,10 @@
           <el-input v-model="form.identity" placeholder="请输入身份"></el-input>
         </el-form-item>
         <el-form-item label="部门" prop="departmentname">
-          <el-input v-model="form.departmentname" placeholder="请输入部门"></el-input>
+          <el-input v-model="form.departmentname" placeholder="请选择部门" @click.native="selectDept" :readonly="true"></el-input>
+        </el-form-item>
+        <el-form-item label="负责部门" prop="fuzename">
+          <el-input v-model="form.fuzename" placeholder="请选择负责部门" @click.native="selectFuzeDept" :readonly="true"></el-input>
         </el-form-item>
         <el-form-item label="信用分" prop="credit">
           <el-input v-model="form.credit" placeholder="请输入信用分"></el-input>
@@ -123,15 +132,49 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="create('form')">确 定</el-button>
+        <el-button v-if="dialogStatus === 'create'" type="primary" @click="create('form')">确 定</el-button>
         <el-button v-else type="primary" @click="update('form')">确 定</el-button>
       </div>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogDeptTreeVisible" :title="'选择部门'">
+      <el-row>
+        <el-col :span="24">
+          <el-button type="primary" @click="checkDept">保存</el-button>
+        </el-col>
+        <el-col :span="8" style='margin-top:15px;'>
+          <el-tree
+            ref="deptTree"
+            :data="deptTree"
+            show-checkbox
+            :default-expanded-keys="[1]"
+            node-key="id"
+            :props="defaultProps">
+          </el-tree>
+        </el-col>
+      </el-row>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogFuzeDeptTreeVisible" :title="'选择部门'">
+      <el-row>
+        <el-col :span="24">
+          <el-button type="primary" @click="checkFuzeDept">保存</el-button>
+        </el-col>
+        <el-col :span="8" style='margin-top:15px;'>
+          <el-tree
+            ref="fuzeDeptTree"
+            :data="deptTree"
+            show-checkbox
+            :default-expanded-keys="[1]"
+            node-key="id"
+            :props="defaultProps">
+          </el-tree>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj, codeList } from 'api/admin/user/v1/index';
+  import { page, addObj, getObj, delObj, putObj, codeList, deptList } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -183,13 +226,6 @@
               trigger: 'blur'
             }
           ],
-       /*   birthday: [
-            {
-              required: true,
-              message: '请输入生日',
-              trigger: 'blur'
-            }
-          ], */
           account: [
             {
               required: true,
@@ -253,13 +289,6 @@
               trigger: 'blur'
             }
           ],
-          departmentname: [
-            {
-              required: true,
-              message: '请输入所属部门',
-              trigger: 'blur'
-            }
-          ],
           position: [
             {
               required: true,
@@ -309,9 +338,15 @@
         listQuery: {
           page: 1,
           limit: 20,
-          name: undefined
+          name: '',
+          account: '',
+          phoneNumber: '',
+          deptId: '',
+          centerId: ''
         },
         dialogFormVisible: false,
+        dialogDeptTreeVisible: false,
+        dialogFuzeDeptTreeVisible: false,
         dialogStatus: '',
         userManager_v1_btn_add: false,
         userManager_v1_btn_del: false,
@@ -322,11 +357,35 @@
         },
         tableKey: 0,
         sexOptions: [],
-        yesNoOptions: []
+        yesNoOptions: [],
+        deptList: [],
+        deptChildList: [],
+        deptTree: [],
+        fuzeDeptTree: [],
+        defaultProps: {
+          children: 'children',
+          label: 'name'
+        },
+        checkedDept: [],
+        checkedFuzeDept: []
       }
     },
     created() {
       this.getList();
+      codeList('SEX_TYPE').then(res => {
+        this.sexOptions = res;
+      });
+      codeList('YES_NO').then(res => {
+        this.yesNoOptions = res;
+      });
+      deptList('1').then(res => {
+        this.deptList = res;
+      });
+      deptList('').then(res => {
+        if (res && res.length > 0) {
+          this.deptTree = this.toTree(res);
+        }
+      });
       this.userManager_v1_btn_add = this.elements['userManager_v1:btn_edit'];
       this.userManager_v1_btn_del = this.elements['userManager_v1:btn_del'];
       this.userManager_v1_btn_edit = this.elements['userManager_v1:btn_add'];
@@ -343,12 +402,6 @@
           this.list = response.data.rows;
           this.total = response.data.total;
           this.listLoading = false;
-          codeList('SEX_TYPE').then(res => {
-            this.sexOptions = res;
-          });
-          codeList('YES_NO').then(res => {
-            this.yesNoOptions = res;
-          });
         })
       },
       handleFilter() {
@@ -365,10 +418,36 @@
       handleCreate() {
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
+        this.form = {
+          username : '',
+          sex : '',
+          birthday : '',
+          account : '',
+          password : '',
+          phoneNumber : '',
+          telNumber : '',
+          email : '',
+          nickname : '',
+          address : '',
+          mobile : '',
+          telecom : '',
+          office : '',
+          department : '',
+          departmentname : '',
+          position : '',
+          identity : '',
+          role : '',
+          addtime : '',
+          credit : '',
+          political : '',
+          paizhu : '',
+          status : ''
+        };
       },
       handleUpdate(row) {
         getObj(row.id).then(response => {
           this.form = response.data;
+          this.form.sex = String(this.form.sex);
           this.dialogFormVisible = true;
           this.dialogStatus = 'update';
         });
@@ -438,6 +517,78 @@
       },
       changeBirthday(val) {
         this.form.birthday = val;
+      },
+      changeChildDept() {
+        deptList(this.listQuery.centerId).then(res => {
+          this.listQuery.deptId = '';
+          this.deptChildList = res;
+        });
+      },
+      selectDept() {
+        this.dialogDeptTreeVisible = true;
+      },
+      selectFuzeDept() {
+        this.dialogFuzeDeptTreeVisible = true;
+      },
+      toTree(data) {
+        let dataList = [];
+        data.forEach(function (item) {
+          if (item.id !== 1) {
+            delete item.children;
+            dataList.push(item);
+          }
+        });
+        const map = {};
+        dataList.forEach(function (item) {
+          map[item.id] = item;
+        });
+        let result = [];
+        dataList.forEach(function (item) {
+          const parent = map[item.pid];
+          if (parent) {
+            (parent.children || ( parent.children = [] )).push(item);
+          } else {
+            result.push(item);
+          }
+        });
+        return result;
+      },
+      checkDept() {
+        const nodes = this.$refs.deptTree.getCheckedNodes();
+        this.form.department = '';
+        this.form.departmentname = '';
+        this.checkedDept = [];
+        if (nodes) {
+          this.getNodeValue(nodes);
+          this.form.department = this.checkedDept.map(e => e.id).join(',');
+          this.form.departmentname = this.checkedDept.map(e => e.name).join(',');
+        }
+        this.dialogDeptTreeVisible = false;
+      },
+      checkFuzeDept() {
+        const nodes = this.$refs.fuzeDeptTree.getCheckedNodes();
+        this.form.fuze = '';
+        this.form.fuzename = '';
+        this.checkedDept = [];
+        if (nodes) {
+          this.getNodeValue(nodes);
+          this.form.fuze = this.checkedFuzeDept.map(e => e.id).join(',');
+          this.form.fuzename = this.checkedFuzeDept.map(e => e.name).join(',');
+        }
+        this.dialogFuzeDeptTreeVisible = false;
+      },
+      getNodeValue(nodes) {
+        nodes.forEach(node => {
+          if (node.children && node.children.length > 0) {
+            this.getNodeValue(node.children);
+          } else {
+            if (this.dialogDeptTreeVisible) {
+              this.checkedDept.push(node);
+            } else {
+              this.checkedFuzeDept.push(node);
+            }
+          }
+        });
       }
     }
   }
