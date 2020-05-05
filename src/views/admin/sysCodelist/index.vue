@@ -7,27 +7,27 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
         <el-table-column width="200px" align="center" label="类型代码">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.kindcode}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="种类名称">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.kindname}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="代码值">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.codevalue}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="描述">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.memo}}</span>
           </template>
         </el-table-column>
         <el-table-column fixed="right" align="center" label="操作" width="150">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button v-if="sysCodelistManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
             </el-button>
             <el-button v-if="sysCodelistManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除

@@ -7,47 +7,47 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="id" width="65">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源编码"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源编码"><template slot-scope="scope">
   <span>
     {{scope.row.code}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源类型"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源类型"><template slot-scope="scope">
   <span>
     {{scope.row.type}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源名称"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源名称"><template slot-scope="scope">
   <span>
     {{scope.row.name}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源地址"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源地址"><template slot-scope="scope">
   <span>
     {{scope.row.uri}}</span>
 </template>
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源请求类型"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源请求类型"><template slot-scope="scope">
   <span>
     {{scope.row.method}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="描述"><template scope="scope">
+    <el-table-column width="200px" align="center" label="描述"><template slot-scope="scope">
   <span>
     {{scope.row.description}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column fixed="right" align="center" label="操作" width="150"><template scope="scope">
+    <el-table-column fixed="right" align="center" label="操作" width="150"><template slot-scope="scope">
   <el-button v-if="menuManager_btn_element_edit" size="small" type="success" @click="handleUpdate(scope.row)">
     编辑
   </el-button>

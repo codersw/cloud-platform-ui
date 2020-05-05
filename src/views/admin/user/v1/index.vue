@@ -15,42 +15,42 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
         <el-table-column width="200px" align="center" label="工号">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.account}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="用户">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.username}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="手机">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.phoneNumber}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="所属部门">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.departmentname}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="座机">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.telNumber}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="岗位">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.position}}</span>
           </template>
         </el-table-column>
         <el-table-column width="200px" align="center" label="启用状态">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span>{{scope.row.statusName}}</span>
           </template>
         </el-table-column>
         <el-table-column fixed="right" align="center" label="操作" width="150">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button v-if="userManager_v1_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
             </el-button>
             <el-button v-if="userManager_v1_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
@@ -418,31 +418,7 @@
       handleCreate() {
         this.dialogStatus = 'create';
         this.dialogFormVisible = true;
-        this.form = {
-          username : '',
-          sex : '',
-          birthday : '',
-          account : '',
-          password : '',
-          phoneNumber : '',
-          telNumber : '',
-          email : '',
-          nickname : '',
-          address : '',
-          mobile : '',
-          telecom : '',
-          office : '',
-          department : '',
-          departmentname : '',
-          position : '',
-          identity : '',
-          role : '',
-          addtime : '',
-          credit : '',
-          political : '',
-          paizhu : '',
-          status : ''
-        };
+        this.resetTemp();
       },
       handleUpdate(row) {
         getObj(row.id).then(response => {
@@ -470,7 +446,7 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
-            addObj(this.form).then(() => {
+            saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
               this.$notify({
@@ -496,12 +472,12 @@
           if (valid) {
             this.dialogFormVisible = false;
             this.form.password = undefined;
-            putObj(this.form.id, this.form).then(() => {
+            saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '修改成功',
                 type: 'success',
                 duration: 2000
               });
@@ -513,6 +489,29 @@
       },
       resetTemp() {
         this.form = {
+          username : '',
+          sex : '',
+          birthday : '',
+          account : '',
+          password : '',
+          phoneNumber : '',
+          telNumber : '',
+          email : '',
+          nickname : '',
+          address : '',
+          mobile : '',
+          telecom : '',
+          office : '',
+          department : '',
+          departmentname : '',
+          position : '',
+          identity : '',
+          role : '',
+          addtime : '',
+          credit : '',
+          political : '',
+          paizhu : '',
+          status : ''
         };
       },
       changeBirthday(val) {

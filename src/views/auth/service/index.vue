@@ -10,22 +10,22 @@
    </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading"  @current-change="handleDataCurrentChange" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="id" width="65">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="服务编码">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.code}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="服务密钥">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.secret}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="服务名">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.name}}</span>
       </template>
     </el-table-column>
@@ -35,51 +35,51 @@
       </template>
     </el-table-column> -->
         <el-table-column width="200px" align="center" label="描述">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.description}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="创建时间">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.crtTime}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="创建人">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.crtUser}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="创建人姓名">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.crtName}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="创建主机">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.crtHost}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="更新时间">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.updTime}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="更新人">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.updUser}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="更新姓名">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.updName}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="更新主机">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.updHost}}</span>
       </template>
     </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150"> <template scope="scope">
+        <el-table-column fixed="right" align="center" label="操作" width="150"> <template slot-scope="scope">
         <el-button v-if="serviceManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
         </el-button>
         <el-button v-if="serviceManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除

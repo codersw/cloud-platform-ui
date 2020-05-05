@@ -5,39 +5,28 @@
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-
-      <el-table-column align="center" label="id" width="65">
-      <template scope="scope">
-        <span>{{scope.row.id}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column width="200px" align="center" label="部门名称">
-      <template scope="scope">
-        <span>{{scope.row.name}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column width="200px" align="center" label="父级id">
-      <template scope="scope">
-        <span>{{scope.row.pid}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column width="200px" align="center" label="添加时间">
-      <template scope="scope">
-        <span>{{scope.row.addtime}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column width="200px" align="center" label="是否启用0未启用 1启用">
-      <template scope="scope">
-        <span>{{scope.row.status}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column width="200px" align="center" label="与企业微信同步0未同步1成功2失败">
-      <template scope="scope">
-        <span>{{scope.row.synchronous}}</span>
-      </template>
-    </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150"> <template scope="scope">
+        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+      <el-table-column width="200px" align="center" label="名称">
+        <template slot-scope="scope">
+          <span>{{scope.row.name}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="200px" align="center" label="下属部门数量">
+        <template slot-scope="scope">
+          <span>{{scope.row.children.length}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="200px" align="center" label="启停">
+        <template slot-scope="scope">
+          <span>{{scope.row.statusName}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="200px" align="center" label="微信同步">
+        <template slot-scope="scope">
+          <span>{{scope.row.synchronousName}}</span>
+        </template>
+      </el-table-column>
+        <el-table-column fixed="right" align="center" label="操作" width="150"> <template slot-scope="scope">
         <el-button v-if="deptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
         </el-button>
         <el-button v-if="deptManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
@@ -75,82 +64,20 @@
 </template>
 
 <script>
-  import {
-      page,
-      addObj,
-      getObj,
-      delObj,
-      putObj
-  } from 'api/admin/dept/index';
+  import { page, addObj, getObj, delObj, putObj } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
     data() {
       return {
         form: {
-        name : undefined,        pid : undefined,        addtime : undefined,        status : undefined,        synchronous : undefined          },
-        rules: {
-    name: [
-  {
-    required: true,
-    message: '请输入部门名称',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   pid: [
-  {
-    required: true,
-    message: '请输入父级id',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   addtime: [
-  {
-    required: true,
-    message: '请输入添加时间',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   status: [
-  {
-    required: true,
-    message: '请输入是否启用0未启用 1启用',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-],   synchronous: [
-  {
-    required: true,
-    message: '请输入与企业微信同步0未同步1成功2失败',
-    trigger: 'blur'
-  },
-  {
-    min: 3,
-    max: 20,
-    message: '长度在 3 到 20 个字符',
-    trigger: 'blur'
-  }
-]        },
+          name : '',
+          pid : '',
+          addtime : '',
+          status : '',
+          synchronous : ''
+        },
+        rules: { },
         list: null,
         total: null,
         listLoading: true,

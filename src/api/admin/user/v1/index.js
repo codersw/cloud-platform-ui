@@ -8,6 +8,14 @@ export function page(query) {
   });
 }
 
+export function saveObj(obj) {
+  return fetch({
+    url: '/api/admin/user/v1',
+    method: 'post',
+    data: obj
+  });
+}
+
 export function addObj(obj) {
   return fetch({
     url: '/api/admin/user/v1',

@@ -8,66 +8,66 @@
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
       <el-table-column align="center" label="id" width="65">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.id}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="名称">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.title}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="图标">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.img}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="连接">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.href}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="添加时间">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.addtime}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="是否提示">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.tishi}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="应以唯一标识">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.appid}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="用户的密钥信息">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.secret}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="数据库名称">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.databasename}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="数据库密码">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.databasepassword}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="数据库连接">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.databasecon}}</span>
       </template>
     </el-table-column>
         <el-table-column width="200px" align="center" label="启停用">
-      <template scope="scope">
+      <template slot-scope="scope">
         <span>{{scope.row.qyflag}}</span>
       </template>
     </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150"> <template scope="scope">
+        <el-table-column fixed="right" align="center" label="操作" width="150"> <template slot-scope="scope">
         <el-button v-if="applicationsManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
         </el-button>
         <el-button v-if="applicationsManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除

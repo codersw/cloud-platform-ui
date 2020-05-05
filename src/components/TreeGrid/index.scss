@@ -1,0 +1,17 @@
+.ms-tree-space {
+  position:relative;
+  top:1px;
+  display:inline-block;
+  font-family:"Glyphicons Halflings";
+  font-style:normal;
+  font-weight:400;
+  line-height:1;
+  width:18px;
+  height:14px;
+}
+.ms-tree-space::before {
+  content:"";
+}
+table td {
+  line-height:26px;
+}

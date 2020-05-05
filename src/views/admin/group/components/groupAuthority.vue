@@ -11,30 +11,30 @@
   <el-col :span="16" style='margin-top:15px;'>
     <el-table ref="elementTable" :data="list" border fit highlight-current-row @select="handleSelectionChange" style="width: 100%">
       <el-table-column v-if="groupManager_element" type="selection" width="55"> </el-table-column>
-      <el-table-column width="200px" align="center" label="资源编码"><template scope="scope">
+      <el-table-column width="200px" align="center" label="资源编码"><template slot-scope="scope">
     <span>
         {{scope.row.code}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源类型"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源类型"><template slot-scope="scope">
     <span>
         {{scope.row.type}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源名称"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源名称"><template slot-scope="scope">
     <span>
         {{scope.row.name}}</span>
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源地址"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源地址"><template slot-scope="scope">
     <span>
         {{scope.row.uri}}</span>
 </template>
 </el-table-column>
-    <el-table-column width="200px" align="center" label="资源请求类型"><template scope="scope">
+    <el-table-column width="200px" align="center" label="资源请求类型"><template slot-scope="scope">
     <span>
         {{scope.row.method}}</span>
 </template>

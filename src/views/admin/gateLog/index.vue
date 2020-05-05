@@ -6,51 +6,51 @@
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="id" width="65">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
 </template>
 </el-table-column>
-<el-table-column width="200px" align="center" label="菜单"><template scope="scope">
+<el-table-column width="200px" align="center" label="菜单"><template slot-scope="scope">
   <span>
     {{scope.row.menu}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="操作"><template scope="scope">
+<el-table-column width="200px" align="center" label="操作"><template slot-scope="scope">
   <span>
     {{scope.row.opt}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="资源路径"><template scope="scope">
+<el-table-column width="200px" align="center" label="资源路径"><template slot-scope="scope">
   <span>
     {{scope.row.uri}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="操作时间"><template scope="scope">
+<el-table-column width="200px" align="center" label="操作时间"><template slot-scope="scope">
   <span>
     {{scope.row.crtTime}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="操作人ID"><template scope="scope">
+<el-table-column width="200px" align="center" label="操作人ID"><template slot-scope="scope">
   <span>
     {{scope.row.crtUser}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="操作人"><template scope="scope">
+<el-table-column width="200px" align="center" label="操作人"><template slot-scope="scope">
   <span>
     {{scope.row.crtName}}</span>
 </template>
 
 </el-table-column>
-<el-table-column width="200px" align="center" label="操作主机"><template scope="scope">
+<el-table-column width="200px" align="center" label="操作主机"><template slot-scope="scope">
   <span>
     {{scope.row.crtHost}}</span>
 </template>
-</el-table-column>        
+</el-table-column>
         </el-table>
         <div v-show="!listLoading" class="pagination-container">
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>

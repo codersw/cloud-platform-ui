@@ -6,51 +6,51 @@
     <el-button class="filter-item" v-if="groupTypeManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
   </div>
   <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-    <el-table-column align="center" label="id" width="65"> <template scope="scope">
+    <el-table-column align="center" label="id" width="65"> <template slot-scope="scope">
                   <span>
                     {{scope.row.id}}
                   </span>
 </template>
       </el-table-column>
       <el-table-column width="200px" align="center" label="编码">
-<template scope="scope">
+<template slot-scope="scope">
 <span>{{scope.row.code}}</span>
 </template>
 
     </el-table-column>
-        <el-table-column width="200px" align="center" label="类型名称"><template scope="scope">
+        <el-table-column width="200px" align="center" label="类型名称"><template slot-scope="scope">
   <span>
                 {{scope.row.name}}</span>
 </template>
 
     </el-table-column>
     <el-table-column width="200px" align="center" label="描述">
-<template scope="scope">
+<template slot-scope="scope">
 <span>
                 {{scope.row.description}}
               </span>
 </template>
 
     </el-table-column>
-        <el-table-column width="200px" align="center" label="最后更新时间"><template scope="scope">
+        <el-table-column width="200px" align="center" label="最后更新时间"><template slot-scope="scope">
   <span>
                 {{scope.row.updTime}}</span>
 </template>
 
     </el-table-column>
-        <el-table-column width="200px" align="center" label="最后更新人"><template scope="scope">
+        <el-table-column width="200px" align="center" label="最后更新人"><template slot-scope="scope">
   <span>
                 {{scope.row.updName}}</span>
 </template>
 
     </el-table-column>
-        <el-table-column width="200px" align="center" label="最后更新主机"><template scope="scope">
+        <el-table-column width="200px" align="center" label="最后更新主机"><template slot-scope="scope">
   <span>
                 {{scope.row.updHost}}</span>
 </template>
 
     </el-table-column>
-    <el-table-column align="center" label="操作" width="150"><template scope="scope">
+    <el-table-column align="center" label="操作" width="150"><template slot-scope="scope">
   <el-button v-if="groupTypeManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">
     编辑
   </el-button>
