@@ -5,7 +5,7 @@
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
-        <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+    <el-table :data="list" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <el-table-column width="200px" align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
@@ -26,13 +26,45 @@
           <span>{{scope.row.synchronousName}}</span>
         </template>
       </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150"> <template slot-scope="scope">
-        <el-button v-if="deptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-        </el-button>
-        <el-button v-if="deptManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-        </el-button>
-      </template> </el-table-column>
+      <el-table-column fixed="right" align="center" label="操作" width="150">
+        <template slot-scope="scope">
+          <el-button v-if="deptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+          </el-button>
+          <el-button v-if="deptManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
+    <!--<el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+        <el-table-column width="200px" align="center" label="名称">
+          <template slot-scope="scope">
+            <span>{{scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column width="200px" align="center" label="下属部门数量">
+          <template slot-scope="scope">
+            <span>{{scope.row.children.length}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column width="200px" align="center" label="启停">
+          <template slot-scope="scope">
+            <span>{{scope.row.statusName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column width="200px" align="center" label="微信同步">
+          <template slot-scope="scope">
+            <span>{{scope.row.synchronousName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" align="center" label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button v-if="deptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
+            </el-button>
+            <el-button v-if="deptManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
+            </el-button>
+          </template>
+        </el-table-column>
+    </el-table>-->
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     </div>
@@ -78,8 +110,8 @@
           synchronous : ''
         },
         rules: { },
-        list: null,
-        total: null,
+        list: [],
+        total: 0,
         listLoading: true,
         listQuery: {
           page: 1,
