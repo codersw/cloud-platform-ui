@@ -5,7 +5,7 @@
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
     </div>
-    <el-table :data="list" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+    <el-table :data="list" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" >
       <el-table-column width="200px" align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
