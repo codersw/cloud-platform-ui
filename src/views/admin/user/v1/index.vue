@@ -49,7 +49,7 @@
             <span>{{scope.row.statusName}}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150">
+        <el-table-column  width="200px" align="center" label="操作">
           <template slot-scope="scope">
             <el-button v-if="userManager_v1_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
             </el-button>
@@ -108,7 +108,7 @@
           <el-input v-model="form.identity" placeholder="请输入身份"></el-input>
         </el-form-item>
         <el-form-item label="所属部门" prop="departmentname">
-          <el-cascader :options="deptTree" :props="defaultProps" clearable placeholder="请选择所属部门" ref="deptTree"></el-cascader>
+          <el-cascader :options="deptTree" :props="defaultProps" v-model="checkedDept" :size="'medium'" @change="handleDeptChange" clearable placeholder="请选择所属部门" ref="deptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="负责部门" prop="fuzename">
           <el-cascader :options="fuzeDeptTree" :props="defaultProps" clearable placeholder="请选择负责部门" ref="fuzeDeptTree"></el-cascader>
@@ -333,7 +333,8 @@
           value: 'id'
         },
         checkedDept: [],
-        checkedFuzeDept: []
+        checkedFuzeDept: [],
+        dbDeptList: []
       }
     },
     created() {
@@ -345,11 +346,14 @@
         this.yesNoOptions = res;
       });
       deptList('1').then(res => {
-        this.deptList = res;
+        if (res && res.length > 0) {
+          this.deptList = res;
+        }
       });
       deptList('').then(res => {
         if (res && res.length > 0) {
-          this.deptTree = this.toTree(res);
+          this.dbDeptList = res;
+          this.deptTree = this.toTree();
           this.fuzeDeptTree = this.deptTree;
         }
       });
@@ -409,23 +413,24 @@
           });
         });
       },
+      handleDeptChange(val) {
+        this.checkedDept = val;
+        console.log(this.checkedDept);
+      },
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
             const deptNodes = set.deptTree.getCheckedNodes();
             if (deptNodes && deptNodes.length > 0) {
-              console.log(deptNodes);
               this.form.department = deptNodes.map(e => e.value).join(',');
               this.form.departmentname = deptNodes.map(e => e.label).join(',');
             }
-            const fuzeDeptNodes = set.deptTree.getCheckedNodes();
+            const fuzeDeptNodes = set.fuzeDeptTree.getCheckedNodes();
             if (fuzeDeptNodes && fuzeDeptNodes.length > 0) {
-              console.log(fuzeDeptNodes);
               this.form.fuze = fuzeDeptNodes.map(e => e.value).join(',');
               this.form.fuzename = fuzeDeptNodes.map(e => e.label).join(',');
             }
-            console.log(this.form);
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
@@ -503,9 +508,12 @@
           this.deptChildList = res;
         });
       },
-      toTree(data) {
+      fomatDept(id) {
+        this.checkedDept = [[7, 40, 323]];
+      },
+      toTree() {
         let dataList = [];
-        data.forEach(function (item) {
+        this.dbDeptList.forEach(function (item) {
           if (item.id !== 1) {
             delete item.children;
             dataList.push(item);
