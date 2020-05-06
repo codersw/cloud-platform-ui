@@ -34,7 +34,6 @@
     "vue-count-to": "1.0.5",
     "vue-multiselect": "2.0.0-beta.15",
     "vue-router": "2.5.3",
-    "vue-template-compiler": "^2.5.2",
     "vuedraggable": "2.13.1",
     "vuex": "2.3.1",
     "xlsx": "^0.10.8"
@@ -81,7 +80,7 @@
     "url-loader": "0.5.8",
     "vue-loader": "12.2.1",
     "vue-style-loader": "3.0.1",
-    "vue-template-compiler": "2.4.2",
+    "vue-template-compiler": "^2.5.2",
     "webpack": "2.6.1",
     "webpack-bundle-analyzer": "2.8.2",
     "webpack-dev-middleware": "1.10.2",

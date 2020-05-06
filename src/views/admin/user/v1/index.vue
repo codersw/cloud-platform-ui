@@ -107,11 +107,11 @@
         <el-form-item label="身份" prop="identity">
           <el-input v-model="form.identity" placeholder="请输入身份"></el-input>
         </el-form-item>
-        <el-form-item label="部门" prop="departmentname">
-          <el-input v-model="form.departmentname" placeholder="请选择部门" @click.native="selectDept" :readonly="true"></el-input>
+        <el-form-item label="所属部门" prop="departmentname">
+          <el-cascader :options="deptTree" :props="defaultProps" clearable placeholder="请选择所属部门" ref="deptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="负责部门" prop="fuzename">
-          <el-input v-model="form.fuzename" placeholder="请选择负责部门" @click.native="selectFuzeDept" :readonly="true"></el-input>
+          <el-cascader :options="fuzeDeptTree" :props="defaultProps" clearable placeholder="请选择负责部门" ref="fuzeDeptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="信用分" prop="credit">
           <el-input v-model="form.credit" placeholder="请输入信用分"></el-input>
@@ -136,45 +136,11 @@
         <el-button v-else type="primary" @click="update('form')">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogDeptTreeVisible" :title="'选择部门'">
-      <el-row>
-        <el-col :span="24">
-          <el-button type="primary" @click="checkDept">保存</el-button>
-        </el-col>
-        <el-col :span="8" style='margin-top:15px;'>
-          <el-tree
-            ref="deptTree"
-            :data="deptTree"
-            show-checkbox
-            :default-expanded-keys="[1]"
-            node-key="id"
-            :props="defaultProps">
-          </el-tree>
-        </el-col>
-      </el-row>
-    </el-dialog>
-    <el-dialog :visible.sync="dialogFuzeDeptTreeVisible" :title="'选择部门'">
-      <el-row>
-        <el-col :span="24">
-          <el-button type="primary" @click="checkFuzeDept">保存</el-button>
-        </el-col>
-        <el-col :span="8" style='margin-top:15px;'>
-          <el-tree
-            ref="fuzeDeptTree"
-            :data="deptTree"
-            show-checkbox
-            :default-expanded-keys="[1]"
-            node-key="id"
-            :props="defaultProps">
-          </el-tree>
-        </el-col>
-      </el-row>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj, codeList, deptList } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, codeList, deptList } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -332,8 +298,8 @@
             }
           ]
         },
-        list: null,
-        total: null,
+        list: [],
+        total: 0,
         listLoading: true,
         listQuery: {
           page: 1,
@@ -345,8 +311,6 @@
           centerId: ''
         },
         dialogFormVisible: false,
-        dialogDeptTreeVisible: false,
-        dialogFuzeDeptTreeVisible: false,
         dialogStatus: '',
         userManager_v1_btn_add: false,
         userManager_v1_btn_del: false,
@@ -364,7 +328,9 @@
         fuzeDeptTree: [],
         defaultProps: {
           children: 'children',
-          label: 'name'
+          label: 'name',
+          multiple: true,
+          value: 'id'
         },
         checkedDept: [],
         checkedFuzeDept: []
@@ -384,6 +350,7 @@
       deptList('').then(res => {
         if (res && res.length > 0) {
           this.deptTree = this.toTree(res);
+          this.fuzeDeptTree = this.deptTree;
         }
       });
       this.userManager_v1_btn_add = this.elements['userManager_v1:btn_edit'];
@@ -446,6 +413,19 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
+            const deptNodes = set.deptTree.getCheckedNodes();
+            if (deptNodes && deptNodes.length > 0) {
+              console.log(deptNodes);
+              this.form.department = deptNodes.map(e => e.value).join(',');
+              this.form.departmentname = deptNodes.map(e => e.label).join(',');
+            }
+            const fuzeDeptNodes = set.deptTree.getCheckedNodes();
+            if (fuzeDeptNodes && fuzeDeptNodes.length > 0) {
+              console.log(fuzeDeptNodes);
+              this.form.fuze = fuzeDeptNodes.map(e => e.value).join(',');
+              this.form.fuzename = fuzeDeptNodes.map(e => e.label).join(',');
+            }
+            console.log(this.form);
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
@@ -523,12 +503,6 @@
           this.deptChildList = res;
         });
       },
-      selectDept() {
-        this.dialogDeptTreeVisible = true;
-      },
-      selectFuzeDept() {
-        this.dialogFuzeDeptTreeVisible = true;
-      },
       toTree(data) {
         let dataList = [];
         data.forEach(function (item) {
@@ -551,43 +525,6 @@
           }
         });
         return result;
-      },
-      checkDept() {
-        const nodes = this.$refs.deptTree.getCheckedNodes();
-        this.form.department = '';
-        this.form.departmentname = '';
-        this.checkedDept = [];
-        if (nodes) {
-          this.getNodeValue(nodes);
-          this.form.department = this.checkedDept.map(e => e.id).join(',');
-          this.form.departmentname = this.checkedDept.map(e => e.name).join(',');
-        }
-        this.dialogDeptTreeVisible = false;
-      },
-      checkFuzeDept() {
-        const nodes = this.$refs.fuzeDeptTree.getCheckedNodes();
-        this.form.fuze = '';
-        this.form.fuzename = '';
-        this.checkedDept = [];
-        if (nodes) {
-          this.getNodeValue(nodes);
-          this.form.fuze = this.checkedFuzeDept.map(e => e.id).join(',');
-          this.form.fuzename = this.checkedFuzeDept.map(e => e.name).join(',');
-        }
-        this.dialogFuzeDeptTreeVisible = false;
-      },
-      getNodeValue(nodes) {
-        nodes.forEach(node => {
-          if (node.children && node.children.length > 0) {
-            this.getNodeValue(node.children);
-          } else {
-            if (this.dialogDeptTreeVisible) {
-              this.checkedDept.push(node);
-            } else {
-              this.checkedFuzeDept.push(node);
-            }
-          }
-        });
       }
     }
   }

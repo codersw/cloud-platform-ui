@@ -1,8 +1,6 @@
-import {
-  asyncRouterMap,
-  constantRouterMap
-} from 'src/router'
-import { getAllMenus } from 'api/login';
+import {asyncRouterMap, constantRouterMap} from 'src/router'
+import {getAllMenus} from 'api/login';
+
 /**
  * 通过authority判断是否与当前用户权限匹配
  * @param menus
@@ -26,7 +24,7 @@ function hasPermission(menus, route) {
  * @param roles
  */
 function filterAsyncRouter(asyncRouterMap, menus, menuDatas) {
-  const accessedRouters = asyncRouterMap.filter(route => {
+  return asyncRouterMap.filter(route => {
     if (hasPermission(menus, route)) {
       route.name = menuDatas[route.authority].title;
       route.icon = menuDatas[route.authority].icon;
@@ -37,7 +35,6 @@ function filterAsyncRouter(asyncRouterMap, menus, menuDatas) {
     }
     return false
   })
-  return accessedRouters
 }
 
 const permission = {

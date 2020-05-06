@@ -144,12 +144,11 @@
     methods: {
       getList() {
         this.listLoading = true;
-        page(this.listQuery)
-            .then(response => {
+        page(this.listQuery).then(response => {
           this.list = response.data.rows;
-        this.total = response.data.total;
-        this.listLoading = false;
-      })
+          this.total = response.data.total;
+          this.listLoading = false;
+        })
       },
       handleFilter() {
         this.getList();
@@ -168,51 +167,43 @@
         this.dialogFormVisible = true;
       },
       handleUpdate(row) {
-        getObj(row.id)
-            .then(response => {
+        getObj(row.id).then(response => {
           this.form = response.data;
-        this.dialogFormVisible = true;
-        this.dialogStatus = 'update';
-      });
+          this.dialogFormVisible = true;
+          this.dialogStatus = 'update';
+        });
       },
       handleDelete(row) {
-        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            })
-            .then(() => {
-          delObj(row.id)
-      .then(() => {
-          this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
+        this.$confirm('此操作将永久删除, 是否继续?', '提示', {confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          delObj(row.id).then(() => {
+            this.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            });
+            const index = this.list.indexOf(row);
+            this.list.splice(index, 1);
+          });
         });
-        const index = this.list.indexOf(row);
-        this.list.splice(index, 1);
-      });
-      });
       },
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
-        if (valid) {
-        addObj(this.form)
-        .then(() => {
-        this.dialogFormVisible = false;
-        this.getList();
-        this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-        });
-        })
-        } else {
-        return false;
-        }
+          if (valid) {
+            addObj(this.form).then(() => {
+              this.dialogFormVisible = false;
+              this.getList();
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              });
+            })
+          } else {
+            return false;
+          }
         });
       },
       cancel(formName) {
@@ -223,31 +214,31 @@
       update(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
-        if (valid) {
-        this.dialogFormVisible = false;
-        this.form.password = undefined;
-        putObj(this.form.id, this.form).then(() => {
-        this.dialogFormVisible = false;
-        this.getList();
-        this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-        });
-        });
-        } else {
-        return false;
-        }
+          if (valid) {
+            this.dialogFormVisible = false;
+            this.form.password = undefined;
+            putObj(this.form.id, this.form).then(() => {
+              this.dialogFormVisible = false;
+              this.getList();
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              });
+             });
+          } else {
+            return false;
+          }
         });
       },
       resetTemp() {
         this.form = {
-          username: undefined,
-          name: undefined,
-          sex: '男',
-          password: undefined,
-          description: undefined
+          username: '',
+          name: '',
+          sex: '',
+          password: '',
+          description: ''
         };
       }
     }
