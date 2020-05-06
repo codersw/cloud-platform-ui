@@ -26,7 +26,7 @@
           <span>{{scope.row.synchronousName}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px"align="center" label="操作" >
+      <el-table-column width="200px" align="center" label="操作" >
         <template slot-scope="scope">
           <el-button v-if="deptManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
           </el-button>
