@@ -12,6 +12,7 @@
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
+      <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;"  type="primary" icon="edit">微信新增人员拉取</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
         <el-table-column width="200px" align="center" label="工号">
