@@ -46,6 +46,13 @@ export function putObj(id, obj) {
   })
 }
 
+export function updateStatus(ids, status) {
+  return fetch({
+    url: '/api/admin/user/v1/updateStatus?ids='+ id + '&status=' + status,
+    method: 'get'
+  })
+}
+
 export function wechatUser() {
   return fetch({
     url: '/api/admin/user/v1/wechatUser',

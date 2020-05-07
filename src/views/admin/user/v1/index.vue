@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <template>
+      <template v-if="showFilter">
         <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.username"> </el-input>
         <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="工号" v-model="listQuery.account"> </el-input>
         <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="手机" v-model="listQuery.phoneNumber"> </el-input>
@@ -15,12 +15,12 @@
         <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
         <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleWechatUser" type="primary" icon="el-icon-edit">同步微信人员</el-button>
       </template>
-      <template>
-        <el-button type="success" icon="el-icon-edit">启用</el-button>
-        <el-button type="danger" icon="el-icon-edit">停用</el-button>
+      <template  v-if="!showFilter">
+        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(0)">启用</el-button>
+        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(1)">停用</el-button>
       </template>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange" ref="tableData">
       <el-table-column type="selection" width="55px" align="center">
       </el-table-column>
         <el-table-column width="200px" align="center" label="工号">
@@ -149,7 +149,7 @@
 </template>
 
 <script>
-  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -343,7 +343,8 @@
         },
         checkedDept: [],
         checkedFuzeDept: [],
-        deptMap: {}
+        deptMap: {},
+        showFilter: true
       }
     },
     created() {
@@ -436,7 +437,21 @@
         });
       },
       handleSelectionChange(val) {
-        console.log(val);
+        this.showFilter = !(val && val.length > 0);
+      },
+      handleUpdateStatus(status) {
+        const nodes = this.$refs.tableData.getCheckedNodes();
+        if (nodes && nodes.length > 0) {
+          updateStatus(nodes.map(e => e.id).join(','), status).then( () => {
+            this.getList();
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000
+            });
+          });
+        }
       },
       create(formName) {
         const set = this.$refs;
