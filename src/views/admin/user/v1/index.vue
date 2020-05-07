@@ -335,7 +335,7 @@
         },
         checkedDept: [],
         checkedFuzeDept: [],
-        dbDeptList: []
+        deptMap: {}
       }
     },
     created() {
@@ -353,8 +353,7 @@
       });
       deptList('').then(res => {
         if (res && res.length > 0) {
-          this.dbDeptList = res;
-          this.deptTree = this.toTree();
+          this.deptTree = this.toTree(res);
           this.fuzeDeptTree = this.deptTree;
         }
       });
@@ -397,6 +396,7 @@
           this.form = response.data;
           this.form.sex = String(this.form.sex);
           this.dialogFormVisible = true;
+          this.fomatDept();
           this.dialogStatus = 'update';
         });
       },
@@ -509,21 +509,35 @@
           this.deptChildList = res;
         });
       },
-      fomatDept(id) {
-        this.checkedDept = [[7, 40, 323]];
+      fomatDept() {
+        const deptIds = this.form.department.split(',');
+        deptIds.forEach(deptId => {
+          let arr = [];
+          this.getDeptIds(deptId, arr);
+          this.checkedDept.push(arr.reverse());
+        });
+        console.log(this.checkedDept);
       },
-      toTree() {
+      getDeptIds(id, arr) {
+        const dept = this.deptMap[id];
+        arr.push(dept.id);
+        if (dept.pid !== '1') {
+          this.getDeptIds(dept.pid, arr)
+        }
+      },
+      toTree(data) {
         let dataList = [];
-        this.dbDeptList.forEach(function (item) {
+        data.forEach(function (item) {
           if (item.id !== 1) {
             delete item.children;
             dataList.push(item);
           }
         });
-        const map = {};
+        let map = {};
         dataList.forEach(function (item) {
           map[item.id] = item;
         });
+        this.deptMap = map;
         let result = [];
         dataList.forEach(function (item) {
           const parent = map[item.pid];
