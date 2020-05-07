@@ -43,3 +43,10 @@ export function deptList(pid) {
     method: 'get'
   });
 }
+
+export function wechatDept() {
+  return fetch({
+    url: '/api/admin/dept/wechatDept',
+    method: 'get'
+  });
+}
