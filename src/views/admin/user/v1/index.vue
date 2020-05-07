@@ -425,7 +425,7 @@
             duration: 2000
           });
         });
-      }
+      },
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
