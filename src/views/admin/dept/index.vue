@@ -6,7 +6,8 @@
       <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
       <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="edit">同步微信部门</el-button>
     </div>
-    <el-table :data="list" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" >
+    <el-table lazy :data="list" row-key="id" border
+              :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
       <el-table-column width="200px" align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
@@ -14,7 +15,7 @@
       </el-table-column>
       <el-table-column width="200px" align="center" label="下属部门数量">
         <template slot-scope="scope">
-          <span>{{scope.row.children.length}}</span>
+          <span>{{scope.row.num}}</span>
         </template>
       </el-table-column>
       <el-table-column width="200px" align="center" label="启停">
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj, codeList } from 'api/admin/dept/index';
+  import { page, addObj, getObj, delObj, putObj, codeList, deptList } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
@@ -156,6 +157,16 @@
             const index = this.list.indexOf(row);
             this.list.splice(index, 1);
           });
+        });
+      },
+      getNodeData(row, treeNode, resolve) {
+        console.log(row);
+        deptList(row.id).then(res => {
+          if(res && res.length > 0) {
+            setTimeout(() => {
+              resolve(res);
+            }, 1000);
+          }
         });
       },
       create(formName) {
