@@ -8,7 +8,7 @@ export function page(query) {
   });
 }
 
-export function addObj(obj) {
+export function saveObj(obj) {
   return fetch({
     url: '/api/admin/dept',
     method: 'post',
@@ -27,14 +27,6 @@ export function delObj(id) {
   return fetch({
     url: '/api/admin/dept/' + id,
     method: 'delete'
-  })
-}
-
-export function putObj(id, obj) {
-  return fetch({
-    url: '/api/admin/dept/' + id,
-    method: 'put',
-    data: obj
   })
 }
 

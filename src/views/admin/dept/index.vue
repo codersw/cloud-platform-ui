@@ -45,8 +45,10 @@
         <el-form-item label="部门名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
         </el-form-item>
-        <el-form-item label="添加时间" prop="addtime">
-          <el-input v-model="form.addtime" placeholder="请输入添加时间"></el-input>
+        <el-form-item label="父级部门" prop="pid">
+          <el-select class="filter-item" filterable v-model="form.pid" placeholder="请选择父级部门">
+            <el-option v-for="item in deptList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="是否启用" prop="status">
           <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
@@ -64,18 +66,17 @@
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj, codeList, deptList } from 'api/admin/dept/index';
+  import { page, getObj, delObj, saveObj, codeList, deptList } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
     data() {
       return {
         form: {
+          id: '',
           name : '',
           pid : '',
-          addtime : '',
           status : '',
-          synchronous : ''
         },
         rules: { },
         list: [],
@@ -84,7 +85,7 @@
         listQuery: {
           page: 1,
           limit: 20,
-          name: undefined
+          name: ''
         },
         dialogFormVisible: false,
         dialogStatus: '',
@@ -97,12 +98,16 @@
         },
         tableKey: 0,
         yesNoOptions: [],
+        deptList: []
       }
     },
     created() {
       this.getList();
       codeList('YES_NO').then(res => {
         this.yesNoOptions = res;
+      });
+      deptList('').then(res => {
+        this.deptList = res;
       });
       this.deptManager_btn_edit = this.elements['deptManager:btn_edit'];
       this.deptManager_btn_del = this.elements['deptManager:btn_del'];
@@ -116,6 +121,7 @@
     methods: {
       getList() {
         this.listLoading = true;
+        this.listQuery.pid = '1';
         page(this.listQuery).then(response => {
           this.list = response.data.rows;
           this.total = response.data.total;
@@ -172,7 +178,7 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
-            addObj(this.form).then(() => {
+            saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
               this.$notify({
@@ -198,7 +204,7 @@
           if (valid) {
             this.dialogFormVisible = false;
             this.form.password = undefined;
-            putObj(this.form.id, this.form).then(() => {
+            saveObj(this.form.id, this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
               this.$notify({
@@ -214,13 +220,12 @@
         });
       },
       resetTemp() {
-        this.form = {
-          username: '',
-          name: '',
-          sex: '',
-          password: '',
-          description: ''
-        };
+        this.form =  {
+          id: '',
+          name : '',
+          pid : '',
+          status : '',
+        }
       }
     }
   }
