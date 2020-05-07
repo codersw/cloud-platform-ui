@@ -2,9 +2,9 @@
 <div class="app-container calendar-list-container">
   <div class="filter-container">
      <el-button-group>
-    <el-button type="primary" v-if="menuManager_btn_add" icon="plus" @click="handlerAdd">添加</el-button>
-    <el-button type="primary" v-if="menuManager_btn_edit" icon="edit" @click="handlerEdit">编辑</el-button>
-    <el-button type="primary" v-if="menuManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
+    <el-button type="primary" v-if="menuManager_btn_add" icon="el-icon-plus" @click="handlerAdd">添加</el-button>
+    <el-button type="primary" v-if="menuManager_btn_edit" icon="el-icon-edit" @click="handlerEdit">编辑</el-button>
+    <el-button type="primary" v-if="menuManager_btn_del" icon="el-icon-delete" @click="handleDelete">删除</el-button>
   </el-button-group>
   </div>
 

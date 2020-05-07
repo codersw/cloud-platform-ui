@@ -2,9 +2,9 @@
   <div class="app-container calendar-list-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="部门名字" v-model="listQuery.name"> </el-input>
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="edit" @click="handleWechatDept">同步微信部门</el-button>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
+      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="el-icon-edit" @click="handleWechatDept">同步微信部门</el-button>
     </div>
     <el-table lazy :data="list" row-key="id" border
               :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">

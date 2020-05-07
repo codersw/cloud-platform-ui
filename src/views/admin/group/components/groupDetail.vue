@@ -2,9 +2,9 @@
 <el-row>
   <el-col :span="24">
     <el-button-group>
-      <el-button type="primary" v-if="groupManager_btn_add" icon="plus" @click="handlerAdd">添加</el-button>
-      <el-button type="primary" v-if="groupManager_btn_edit" icon="edit" @click="handlerEdit">编辑</el-button>
-      <el-button type="primary" v-if="groupManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
+      <el-button type="primary" v-if="groupManager_btn_add" icon="el-icon-plus" @click="handlerAdd">添加</el-button>
+      <el-button type="primary" v-if="groupManager_btn_edit" icon="el-icon-edit" @click="handlerEdit">编辑</el-button>
+      <el-button type="primary" v-if="groupManager_btn_del" icon="el-icon-delete" @click="handleDelete">删除</el-button>
       <el-button type="primary" v-if="groupManager_btn_resourceManager" @click="handlerAuthority">
         <icon-svg icon-class="quanxian1"></icon-svg>权限分配</el-button>
       <el-button type="primary" v-if="groupManager_btn_userManager" @click="handlerUser">

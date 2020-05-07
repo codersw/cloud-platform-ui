@@ -2,7 +2,7 @@
   <div class="app-container calendar-list-container">
     <div class="filter-container">
       <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="操作人姓名" v-model="listQuery.crtName"> </el-input>
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
       <el-table-column align="center" label="id" width="65">

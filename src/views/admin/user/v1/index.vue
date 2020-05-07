@@ -1,20 +1,28 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.username"> </el-input>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="工号" v-model="listQuery.account"> </el-input>
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="手机" v-model="listQuery.phoneNumber"> </el-input>
-      <el-select style="width: 200px;" class="filter-item" placeholder="中心" v-model="listQuery.centerId" @change="changeChildDept" >
-        <el-option v-for="dept in deptList" :key="dept.id" :label="dept.name" :value="dept.id" > </el-option>
-      </el-select>
-      <el-select class="filter-item" style="width: 200px;" placeholder="部门" v-model="listQuery.deptId">
-        <el-option v-for="dept in deptChildList" :key="dept.id" :label="dept.name" :value="dept.id"> </el-option>
-      </el-select>
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;"  @click="handleWechatUser" type="primary" icon="edit">同步微信人员</el-button>
+      <template>
+        <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="用户名" v-model="listQuery.username"> </el-input>
+        <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="工号" v-model="listQuery.account"> </el-input>
+        <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="手机" v-model="listQuery.phoneNumber"> </el-input>
+        <el-select style="width: 200px;" class="filter-item" placeholder="中心" v-model="listQuery.centerId" @change="changeChildDept" >
+          <el-option v-for="dept in deptList" :key="dept.id" :label="dept.name" :value="dept.id" > </el-option>
+        </el-select>
+        <el-select class="filter-item" style="width: 200px;" placeholder="部门" v-model="listQuery.deptId">
+          <el-option v-for="dept in deptChildList" :key="dept.id" :label="dept.name" :value="dept.id"> </el-option>
+        </el-select>
+        <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
+        <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleWechatUser" type="primary" icon="el-icon-edit">同步微信人员</el-button>
+      </template>
+      <template>
+        <el-button type="success" icon="el-icon-edit">启用</el-button>
+        <el-button type="danger" icon="el-icon-edit">停用</el-button>
+      </template>
     </div>
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55px" align="center">
+      </el-table-column>
         <el-table-column width="200px" align="center" label="工号">
           <template slot-scope="scope">
             <span>{{scope.row.account}}</span>
@@ -427,6 +435,9 @@
           });
         });
       },
+      handleSelectionChange(val) {
+        console.log(val);
+      },
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
@@ -509,6 +520,7 @@
           status : ''
         };
         this.checkedDept = [];
+        this.checkedFuzeDept = [];
       },
       changeBirthday(val) {
         this.form.birthday = val;
