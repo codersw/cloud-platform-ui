@@ -416,6 +416,7 @@
         });
       },
       handleWechatUser() {
+        this.listLoading = true;
         wechatUser().then( () => {
           this.getList();
           this.$notify({

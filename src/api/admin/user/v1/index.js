@@ -46,6 +46,13 @@ export function putObj(id, obj) {
   })
 }
 
+export function wechatUser() {
+  return fetch({
+    url: '/api/admin/user/v1/wechatUser',
+    method: 'get'
+  });
+}
+
 export function codeList(kindcode) {
   return fetch({
     url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
@@ -56,13 +63,6 @@ export function codeList(kindcode) {
 export function deptList(pid) {
   return fetch({
     url: '/api/admin/dept/listByPid?pid=' + pid ,
-    method: 'get'
-  });
-}
-
-export function wechatUser() {
-  return fetch({
-    url: '/api/admin/dept/wechatUser',
     method: 'get'
   });
 }
