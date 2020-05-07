@@ -109,10 +109,10 @@
           <el-input v-model="form.identity" placeholder="请输入身份"></el-input>
         </el-form-item>
         <el-form-item label="所属部门" prop="departmentname">
-          <el-cascader :options="deptTree" :props="defaultProps" v-model="checkedDept" :size="'medium'" @change="handleDeptChange" clearable placeholder="请选择所属部门" ref="deptTree"></el-cascader>
+          <el-cascader :options="deptTree" :props="defaultProps" v-model="checkedDept" :size="'medium'" clearable placeholder="请选择所属部门" ref="deptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="负责部门" prop="fuzename">
-          <el-cascader :options="fuzeDeptTree" :props="defaultProps" clearable placeholder="请选择负责部门" ref="fuzeDeptTree"></el-cascader>
+          <el-cascader :options="fuzeDeptTree" :props="defaultProps" v-model="checkedFuzeDept" :size="'medium'" clearable placeholder="请选择负责部门" ref="fuzeDeptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="信用分" prop="credit">
           <el-input v-model="form.credit" placeholder="请输入信用分"></el-input>
@@ -397,6 +397,7 @@
           this.form.sex = String(this.form.sex);
           this.dialogFormVisible = true;
           this.fomatDept();
+          this.fomatFuzeDept();
           this.dialogStatus = 'update';
         });
       },
@@ -413,10 +414,6 @@
             this.list.splice(index, 1);
           });
         });
-      },
-      handleDeptChange(val) {
-        this.checkedDept = val;
-        console.log(this.checkedDept);
       },
       create(formName) {
         const set = this.$refs;
@@ -499,6 +496,7 @@
           paizhu : '',
           status : ''
         };
+        this.checkedDept = [];
       },
       changeBirthday(val) {
         this.form.birthday = val;
@@ -516,7 +514,14 @@
           this.getDeptIds(deptId, arr);
           this.checkedDept.push(arr.reverse());
         });
-        console.log(this.checkedDept);
+      },
+      fomatFuzeDept() {
+        const deptIds = this.form.fuze.split(',');
+        deptIds.forEach(deptId => {
+          let arr = [];
+          this.getDeptIds(deptId, arr);
+          this.checkedFuzeDept.push(arr.reverse());
+        });
       },
       getDeptIds(id, arr) {
         const dept = this.deptMap[id];
