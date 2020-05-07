@@ -160,7 +160,6 @@
         });
       },
       getNodeData(row, treeNode, resolve) {
-        console.log(row);
         deptList(row.id).then(res => {
           if(res && res.length > 0) {
             setTimeout(() => {
