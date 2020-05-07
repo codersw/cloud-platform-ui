@@ -12,7 +12,7 @@
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;"  type="primary" icon="edit">同步微信人员</el-button>
+      <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;"  @click="handleWechatUser" type="primary" icon="edit">同步微信人员</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
         <el-table-column width="200px" align="center" label="工号">
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-  import { page, saveObj, getObj, delObj, codeList, deptList } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -415,6 +415,17 @@
           });
         });
       },
+      handleWechatUser() {
+        wechatUser().then( () => {
+          this.getList();
+          this.$notify({
+            title: '成功',
+            message: '同步成功',
+            type: 'success',
+            duration: 2000
+          });
+        });
+      }
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {

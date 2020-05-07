@@ -59,3 +59,10 @@ export function deptList(pid) {
     method: 'get'
   });
 }
+
+export function wechatUser() {
+  return fetch({
+    url: '/api/admin/dept/wechatUser',
+    method: 'get'
+  });
+}
