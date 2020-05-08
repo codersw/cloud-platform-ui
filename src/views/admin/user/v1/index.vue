@@ -60,12 +60,18 @@
         </el-table-column>
         <el-table-column  width="200px" align="center" label="操作">
           <template slot-scope="scope">
-            <el-button v-if="userManager_v1_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-            </el-button>
-            <el-button v-if="userManager_v1_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-            </el-button>
+            <el-dropdown>
+              <el-button type="danger">
+                操作<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-if="userManager_v1_btn_edit" @click.native="handleUpdate(scope.row)">编辑</el-dropdown-item>
+                <el-dropdown-item v-if="userManager_v1_btn_edit" @click.native="handleResetPassword(scope.row)">重置密码</el-dropdown-item>
+                <el-dropdown-item v-if="userManager_v1_btn_del" @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </template>
-         </el-table-column>
+        </el-table-column>
     </el-table>
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
@@ -149,7 +155,7 @@
 </template>
 
 <script>
-  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus, resetPassword } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -402,6 +408,7 @@
         this.resetTemp();
       },
       handleUpdate(row) {
+        console.log(row)
         getObj(row.id).then(response => {
           this.form = response.data;
           this.form.sex = String(this.form.sex);
@@ -413,7 +420,9 @@
       },
       handleDelete(row) {
         this.$confirm('此操作将永久删除, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          this.listLoading = true;
           delObj(row.id).then(() => {
+            this.listLoading = false;
             this.$notify({
               title: '成功',
               message: '删除成功',
@@ -422,6 +431,18 @@
             });
             const index = this.list.indexOf(row);
             this.list.splice(index, 1);
+          });
+        });
+      },
+      handleResetPassword(row) {
+        this.listLoading = true;
+        resetPassword(row.id).then( () => {
+          this.listLoading = false;
+          this.$notify({
+            title: '成功',
+            message: '同步成功',
+            type: 'success',
+            duration: 2000
           });
         });
       },
@@ -461,15 +482,18 @@
         set[formName].validate(valid => {
           if (valid) {
             const deptNodes = set.deptTree.getCheckedNodes();
+            console.log(deptNodes);
             if (deptNodes && deptNodes.length > 0) {
               this.form.department = deptNodes.map(e => e.value).join(',');
               this.form.departmentname = deptNodes.map(e => e.label).join(',');
             }
             const fuzeDeptNodes = set.fuzeDeptTree.getCheckedNodes();
+            console.log(fuzeDeptNodes);
             if (fuzeDeptNodes && fuzeDeptNodes.length > 0) {
               this.form.fuze = fuzeDeptNodes.map(e => e.value).join(',');
               this.form.fuzename = fuzeDeptNodes.map(e => e.label).join(',');
             }
+            this.listLoading = true;
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
@@ -494,8 +518,21 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
+            const deptNodes = set.deptTree.getCheckedNodes();
+            console.log(deptNodes);
+            if (deptNodes && deptNodes.length > 0) {
+              this.form.department = deptNodes.map(e => e.value).join(',');
+              this.form.departmentname = deptNodes.map(e => e.label).join(',');
+            }
+            const fuzeDeptNodes = set.fuzeDeptTree.getCheckedNodes();
+            console.log(fuzeDeptNodes);
+            if (fuzeDeptNodes && fuzeDeptNodes.length > 0) {
+              this.form.fuze = fuzeDeptNodes.map(e => e.value).join(',');
+              this.form.fuzename = fuzeDeptNodes.map(e => e.label).join(',');
+            }
             this.dialogFormVisible = false;
-            this.form.password = undefined;
+            this.form.password = '';
+            this.listLoading = true;
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
@@ -550,20 +587,24 @@
         });
       },
       fomatDept() {
-        const deptIds = this.form.department.split(',');
-        deptIds.forEach(deptId => {
-          let arr = [];
-          this.getDeptIds(deptId, arr);
-          this.checkedDept.push(arr.reverse());
-        });
+        if (this.form.department !== '') {
+          const deptIds = this.form.department.split(',');
+          deptIds.forEach(deptId => {
+            let arr = [];
+            this.getDeptIds(deptId, arr);
+            this.checkedDept.push(arr.reverse());
+          });
+        }
       },
       fomatFuzeDept() {
-        const deptIds = this.form.fuze.split(',');
-        deptIds.forEach(deptId => {
-          let arr = [];
-          this.getDeptIds(deptId, arr);
-          this.checkedFuzeDept.push(arr.reverse());
-        });
+        if (this.form.department !== '') {
+          const deptIds = this.form.fuze.split(',');
+          deptIds.forEach(deptId => {
+            let arr = [];
+            this.getDeptIds(deptId, arr);
+            this.checkedFuzeDept.push(arr.reverse());
+          });
+        }
       },
       getDeptIds(id, arr) {
         const dept = this.deptMap[id];

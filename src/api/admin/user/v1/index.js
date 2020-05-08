@@ -53,6 +53,13 @@ export function updateStatus(ids, status) {
   })
 }
 
+export function resetPassword(id) {
+  return fetch({
+    url: '/api/admin/user/v1/resetPassword/' + id,
+    method: 'get'
+  });
+}
+
 export function wechatUser() {
   return fetch({
     url: '/api/admin/user/v1/wechatUser',
