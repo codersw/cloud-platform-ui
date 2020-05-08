@@ -106,7 +106,8 @@
         },
         tableKey: 0,
         yesNoOptions: [],
-        deptList: []
+        deptList: [],
+        showFilter: true
       }
     },
     created() {
