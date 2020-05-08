@@ -16,8 +16,8 @@
         <el-button class="filter-item" v-if="userManager_v1_btn_add" style="margin-left: 10px;" @click="handleWechatUser" type="primary" icon="el-icon-edit">同步微信人员</el-button>
       </template>
       <template  v-if="!showFilter">
-        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(0)">启用</el-button>
-        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(1)">停用</el-button>
+        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(1)">启用</el-button>
+        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(0)">停用</el-button>
       </template>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange" ref="tableData">
@@ -344,7 +344,8 @@
         checkedDept: [],
         checkedFuzeDept: [],
         deptMap: {},
-        showFilter: true
+        showFilter: true,
+        multipleSelection: []
       }
     },
     created() {
@@ -437,11 +438,13 @@
         });
       },
       handleSelectionChange(val) {
+        this.multipleSelection = val;
         this.showFilter = !(val && val.length > 0);
       },
       handleUpdateStatus(status) {
-        const nodes = this.$refs.tableData.getCheckedNodes();
+        const nodes = this.multipleSelection;
         if (nodes && nodes.length > 0) {
+          this.listLoading = true;
           updateStatus(nodes.map(e => e.id).join(','), status).then( () => {
             this.getList();
             this.$notify({

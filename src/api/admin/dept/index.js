@@ -32,7 +32,7 @@ export function delObj(id) {
 
 export function updateStatus(ids, status) {
   return fetch({
-    url: '/api/admin/dept/updateStatus?ids='+ id + '&status=' + status,
+    url: '/api/admin/dept/updateStatus?ids='+ ids + '&status=' + status,
     method: 'get'
   })
 }

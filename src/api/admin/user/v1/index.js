@@ -48,7 +48,7 @@ export function putObj(id, obj) {
 
 export function updateStatus(ids, status) {
   return fetch({
-    url: '/api/admin/user/v1/updateStatus?ids='+ id + '&status=' + status,
+    url: '/api/admin/user/v1/updateStatus?ids='+ ids + '&status=' + status,
     method: 'get'
   })
 }

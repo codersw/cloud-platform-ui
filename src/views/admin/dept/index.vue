@@ -8,11 +8,11 @@
         <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="el-icon-edit" @click="handleWechatDept">同步微信部门</el-button>
       </template>
       <template  v-if="!showFilter">
-        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(0)">启用</el-button>
-        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(1)">停用</el-button>
+        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(1)">启用</el-button>
+        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(0)">停用</el-button>
       </template>
     </div>
-    <el-table lazy :data="list" row-key="id" border @selection-change="handleSelectionChange"
+    <el-table lazy :data="list" row-key="id" border @selection-change="handleSelectionChange" ref="tableData"
               :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
       <el-table-column type="selection" width="55px" align="center">
       </el-table-column>
@@ -107,7 +107,8 @@
         tableKey: 0,
         yesNoOptions: [],
         deptList: [],
-        showFilter: true
+        showFilter: true,
+        multipleSelection: []
       }
     },
     created() {
@@ -196,11 +197,13 @@
         });
       },
       handleSelectionChange(val) {
+        this.multipleSelection = val;
         this.showFilter = !(val && val.length > 0);
       },
       handleUpdateStatus(status) {
-        const nodes = this.$refs.tableData.getCheckedNodes();
+        const nodes = this.multipleSelection;
         if (nodes && nodes.length > 0) {
+          this.listLoading = true;
           updateStatus(nodes.map(e => e.id).join(','), status).then( () => {
             this.getList();
             this.$notify({
