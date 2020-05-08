@@ -30,6 +30,13 @@ export function delObj(id) {
   })
 }
 
+export function updateStatus(ids, status) {
+  return fetch({
+    url: '/api/admin/dept/updateStatus?ids='+ id + '&status=' + status,
+    method: 'get'
+  })
+}
+
 export function codeList(kindcode) {
   return fetch({
     url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,

@@ -1,13 +1,21 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="部门名字" v-model="listQuery.name"> </el-input>
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
-      <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="el-icon-edit" @click="handleWechatDept">同步微信部门</el-button>
+      <template v-if="showFilter">
+        <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="部门名字" v-model="listQuery.name"> </el-input>
+        <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">搜索</el-button>
+        <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
+        <el-button class="filter-item" v-if="deptManager_btn_add" style="margin-left: 10px;"  type="primary" icon="el-icon-edit" @click="handleWechatDept">同步微信部门</el-button>
+      </template>
+      <template  v-if="!showFilter">
+        <el-button type="success" icon="el-icon-edit" @click="handleUpdateStatus(0)">启用</el-button>
+        <el-button type="danger" icon="el-icon-edit" @click="handleUpdateStatus(1)">停用</el-button>
+      </template>
     </div>
-    <el-table lazy :data="list" row-key="id" border
+    <el-table lazy :data="list" row-key="id" border @selection-change="handleSelectionChange"
               :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
+      <el-table-column type="selection" width="55px" align="center">
+      </el-table-column>
       <el-table-column width="200px" align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
@@ -66,7 +74,7 @@
 </template>
 
 <script>
-  import { page, getObj, delObj, saveObj, codeList, deptList, wechatDept } from 'api/admin/dept/index';
+  import { page, getObj, delObj, saveObj, codeList, deptList, wechatDept, updateStatus } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
@@ -185,6 +193,23 @@
             }, 1000);
           }
         });
+      },
+      handleSelectionChange(val) {
+        this.showFilter = !(val && val.length > 0);
+      },
+      handleUpdateStatus(status) {
+        const nodes = this.$refs.tableData.getCheckedNodes();
+        if (nodes && nodes.length > 0) {
+          updateStatus(nodes.map(e => e.id).join(','), status).then( () => {
+            this.getList();
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000
+            });
+          });
+        }
       },
       create(formName) {
         const set = this.$refs;

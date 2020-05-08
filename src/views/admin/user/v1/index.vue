@@ -21,8 +21,8 @@
       </template>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange" ref="tableData">
-      <el-table-column type="selection" width="55px" align="center">
-      </el-table-column>
+        <el-table-column type="selection" width="55px" align="center">
+        </el-table-column>
         <el-table-column width="200px" align="center" label="工号">
           <template slot-scope="scope">
             <span>{{scope.row.account}}</span>
