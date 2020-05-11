@@ -66,6 +66,7 @@
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-if="userManager_v1_btn_edit" @click.native="handleUpdate(scope.row)">编辑</el-dropdown-item>
+                <el-dropdown-item v-if="userManager_v1_btn_edit" @click.native="handleWechatUserByUserId(scope.row)">获取微信信息</el-dropdown-item>
                 <el-dropdown-item v-if="userManager_v1_btn_edit" @click.native="handleResetPassword(scope.row)">重置密码</el-dropdown-item>
                 <el-dropdown-item v-if="userManager_v1_btn_del" @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
               </el-dropdown-menu>
@@ -155,7 +156,7 @@
 </template>
 
 <script>
-  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus, resetPassword } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus, resetPassword, wechatUserByUserId } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -437,6 +438,18 @@
       handleResetPassword(row) {
         this.listLoading = true;
         resetPassword(row.id).then( () => {
+          this.listLoading = false;
+          this.$notify({
+            title: '成功',
+            message: '同步成功',
+            type: 'success',
+            duration: 2000
+          });
+        });
+      },
+      handleWechatUserByUserId(row) {
+        this.listLoading = true;
+        wechatUserByUserId(row.id).then( () => {
           this.listLoading = false;
           this.$notify({
             title: '成功',

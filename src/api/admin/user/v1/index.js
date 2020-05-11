@@ -67,6 +67,14 @@ export function wechatUser() {
   });
 }
 
+export function wechatUserByUserId(id) {
+  return fetch({
+    url: '/api/admin/user/v1/wechatUserByUserId/' + id,
+    method: 'get'
+  });
+}
+
+
 export function codeList(kindcode) {
   return fetch({
     url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
