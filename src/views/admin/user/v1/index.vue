@@ -23,42 +23,42 @@
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%" @selection-change="handleSelectionChange" ref="tableData">
         <el-table-column type="selection" width="55px" align="center">
         </el-table-column>
-        <el-table-column width="200px" align="center" label="工号">
+        <el-table-column align="center" label="工号">
           <template slot-scope="scope">
             <span>{{scope.row.account}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="用户">
+        <el-table-column align="center" label="用户">
           <template slot-scope="scope">
             <span>{{scope.row.username}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="手机">
+        <el-table-column align="center" label="手机">
           <template slot-scope="scope">
             <span>{{scope.row.phoneNumber}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="所属部门">
+        <el-table-column align="center" label="所属部门">
           <template slot-scope="scope">
             <span>{{scope.row.departmentname}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="座机">
+        <el-table-column align="center" label="座机">
           <template slot-scope="scope">
             <span>{{scope.row.telNumber}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="岗位">
+        <el-table-column align="center" label="岗位">
           <template slot-scope="scope">
             <span>{{scope.row.position}}</span>
           </template>
         </el-table-column>
-        <el-table-column width="200px" align="center" label="启用状态">
+        <el-table-column align="center" label="启用状态">
           <template slot-scope="scope">
             <span>{{scope.row.statusName}}</span>
           </template>
         </el-table-column>
-        <el-table-column  width="200px" align="center" label="操作">
+        <el-table-column align="center" label="操作">
           <template slot-scope="scope">
             <el-dropdown>
               <el-button type="danger">

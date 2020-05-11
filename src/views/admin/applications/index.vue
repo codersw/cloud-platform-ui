@@ -6,7 +6,7 @@
       <el-button class="filter-item" v-if="applicationsManager_btn_add" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">添加</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
-      <el-table-column width="200px" align="center" label="名称">
+      <el-table-column align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.title}}</span>
         </template>
@@ -16,12 +16,12 @@
           <span>{{scope.row.href}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="添加时间">
+      <el-table-column align="center" label="添加时间">
         <template slot-scope="scope">
           <span>{{scope.row.addtime}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="操作" >
+      <el-table-column align="center" label="操作" >
         <template slot-scope="scope">
           <el-dropdown>
             <el-button type="danger">

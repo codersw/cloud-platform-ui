@@ -16,27 +16,27 @@
               :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
       <el-table-column type="selection" width="55px" align="center">
       </el-table-column>
-      <el-table-column width="200px" align="center" label="名称">
+      <el-table-column align="center" label="名称">
         <template slot-scope="scope">
           <span>{{scope.row.name}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="下属部门数量">
+      <el-table-column align="center" label="下属部门数量">
         <template slot-scope="scope">
           <span>{{scope.row.num}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="启停">
+      <el-table-column align="center" label="启停">
         <template slot-scope="scope">
           <span>{{scope.row.statusName}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="微信同步">
+      <el-table-column align="center" label="微信同步">
         <template slot-scope="scope">
           <span>{{scope.row.synchronousName}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="200px" align="center" label="操作" >
+      <el-table-column align="center" label="操作" >
         <template slot-scope="scope">
           <el-dropdown>
             <el-button type="danger">
