@@ -26,12 +26,17 @@
             <span>{{scope.row.memo}}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" align="center" label="操作" width="150">
+        <el-table-column width="200px" align="center" label="操作" >
           <template slot-scope="scope">
-            <el-button v-if="sysCodelistManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">编辑
-            </el-button>
-            <el-button v-if="sysCodelistManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-            </el-button>
+            <el-dropdown>
+              <el-button type="danger">
+                操作<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-if="sysCodelistManager_btn_edit" @click.native="handleUpdate(scope.row)">编辑</el-dropdown-item>
+                <el-dropdown-item  v-if="sysCodelistManager_btn_del" @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </template>
         </el-table-column>
     </el-table>

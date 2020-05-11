@@ -48,15 +48,20 @@
   <span>
                 {{scope.row.updHost}}</span>
 </template>
-
-    </el-table-column>
-    <el-table-column align="center" label="操作" width="150"><template slot-scope="scope">
-  <el-button v-if="groupTypeManager_btn_edit" size="small" type="success" @click="handleUpdate(scope.row)">
-    编辑
-  </el-button>
-  <el-button v-if="groupTypeManager_btn_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-  </el-button>
-</template>
+        </el-table-column>
+      <el-table-column width="200px" align="center" label="操作" >
+        <template slot-scope="scope">
+          <el-dropdown>
+            <el-button type="danger">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-if="groupTypeManager_btn_edit" @click.native="handleUpdate(scope.row)">编辑</el-dropdown-item>
+              <el-dropdown-item  v-if="groupTypeManager_btn_del" @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
     </el-table-column>
   </el-table>
   <div v-show="!listLoading" class="pagination-container">

@@ -41,21 +41,24 @@
 </template>
 
 </el-table-column>
-    <el-table-column width="200px" align="center" label="描述"><template slot-scope="scope">
-  <span>
-    {{scope.row.description}}</span>
-</template>
-
-</el-table-column>
-    <el-table-column fixed="right" align="center" label="操作" width="150"><template slot-scope="scope">
-  <el-button v-if="menuManager_btn_element_edit" size="small" type="success" @click="handleUpdate(scope.row)">
-    编辑
-  </el-button>
-  <el-button v-if="menuManager_btn_element_del" size="small" type="danger" @click="handleDelete(scope.row)">删除
-  </el-button>
-</template>
-
-</el-table-column>
+      <el-table-column width="200px" align="center" label="描述">
+        <template slot-scope="scope">
+        <span>{{scope.row.description}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column width="200px" align="center" label="操作" >
+        <template slot-scope="scope">
+          <el-dropdown>
+            <el-button type="danger">
+              操作<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-if="menuManager_btn_element_edit" @click.native="handleUpdate(scope.row)">编辑</el-dropdown-item>
+              <el-dropdown-item  v-if="menuManager_btn_element_del" @click.native="handleDelete(scope.row)">删除</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </template>
+      </el-table-column>
   </el-table>
   <div v-show="!listLoading" class="pagination-container">
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
