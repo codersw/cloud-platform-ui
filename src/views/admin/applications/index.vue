@@ -21,6 +21,11 @@
           <span>{{scope.row.addtime}}</span>
         </template>
       </el-table-column>
+      <el-table-column align="center" label="启停">
+        <template slot-scope="scope">
+          <span>{{scope.row.qyflagName}}</span>
+        </template>
+      </el-table-column>
       <el-table-column align="center" label="操作" >
         <template slot-scope="scope">
           <el-dropdown>
@@ -65,8 +70,8 @@
           <el-input v-model="form.img" placeholder="请输入图标"></el-input>
         </el-form-item>
         <el-form-item label="启停用" prop="qyflag">
-          <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
-            <el-option v-for="item in yesNoOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+          <el-select class="filter-item" v-model="form.qyflag" placeholder="是否启用">
+            <el-option v-for="item in qyflagOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
         </el-form>
@@ -80,7 +85,7 @@
 </template>
 
 <script>
-  import { page, addObj, getObj, delObj, putObj, codeList } from 'api/admin/applications/index';
+  import { page, getObj, delObj, saveObj, baseInfo } from 'api/admin/applications/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'applications',
@@ -132,13 +137,13 @@
           create: '创建'
         },
         tableKey: 0,
-        yesNoOptions: [],
+        qyflagOptions: [],
       }
     },
     created() {
       this.getList();
-      codeList('YES_NO').then(res => {
-        this.yesNoOptions = res;
+      baseInfo().then(res => {
+        this.qyflagOptions = res.data;
       });
       this.applicationsManager_btn_edit = this.elements['applicationsManager:btn_edit'];
       this.applicationsManager_btn_del = this.elements['applicationsManager:btn_del'];
@@ -152,11 +157,10 @@
     methods: {
       getList() {
         this.listLoading = true;
-        page(this.listQuery)
-            .then(response => {
+        page(this.listQuery).then(response => {
           this.list = response.data.rows;
-        this.total = response.data.total;
-        this.listLoading = false;
+          this.total = response.data.total;
+          this.listLoading = false;
       })
       },
       handleFilter() {
@@ -176,11 +180,10 @@
         this.dialogFormVisible = true;
       },
       handleUpdate(row) {
-        getObj(row.id)
-            .then(response => {
+        getObj(row.id).then(response => {
           this.form = response.data;
-        this.dialogFormVisible = true;
-        this.dialogStatus = 'update';
+          this.dialogFormVisible = true;
+          this.dialogStatus = 'update';
       });
       },
       handleDelete(row) {
@@ -206,21 +209,20 @@
       create(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
-        if (valid) {
-        addObj(this.form)
-        .then(() => {
-        this.dialogFormVisible = false;
-        this.getList();
-        this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-        });
-        })
-        } else {
-        return false;
-        }
+          if (valid) {
+            saveObj(this.form).then(() => {
+              this.dialogFormVisible = false;
+              this.getList();
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              });
+            })
+          } else {
+            return false;
+          }
         });
       },
       cancel(formName) {
@@ -231,22 +233,22 @@
       update(formName) {
         const set = this.$refs;
         set[formName].validate(valid => {
-        if (valid) {
-        this.dialogFormVisible = false;
-        this.form.password = undefined;
-        putObj(this.form.id, this.form).then(() => {
-        this.dialogFormVisible = false;
-        this.getList();
-        this.$notify({
-        title: '成功',
-        message: '创建成功',
-        type: 'success',
-        duration: 2000
-        });
-        });
-        } else {
-        return false;
-        }
+          if (valid) {
+            this.dialogFormVisible = false;
+            this.form.password = undefined;
+            saveObj(this.form).then(() => {
+              this.dialogFormVisible = false;
+              this.getList();
+              this.$notify({
+                title: '成功',
+                message: '创建成功',
+                type: 'success',
+                duration: 2000
+              });
+            });
+          } else {
+            return false;
+          }
         });
       },
       resetTemp() {

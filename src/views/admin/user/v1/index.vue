@@ -96,7 +96,7 @@
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select class="filter-item" v-model="form.sex" placeholder="请选择性别">
-            <el-option v-for="item in sexOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+            <el-option v-for="item in sexOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="生日" prop="birthday">
@@ -137,12 +137,12 @@
         </el-form-item>
         <el-form-item label="派驻" prop="paizhu">
           <el-select class="filter-item" v-model="form.paizhu" placeholder="请选择派驻">
-            <el-option v-for="item in yesNoOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+            <el-option v-for="item in paizhuOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="启用" prop="status">
           <el-select class="filter-item" v-model="form.status" placeholder="请选择启用">
-            <el-option v-for="item in yesNoOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+            <el-option v-for="item in statusOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -156,7 +156,7 @@
 </template>
 
 <script>
-  import { page, saveObj, getObj, delObj, codeList, deptList, wechatUser, updateStatus, resetPassword, wechatUserByUserId } from 'api/admin/user/v1/index';
+  import { page, saveObj, getObj, delObj, baseInfo, deptList, wechatUser, updateStatus, resetPassword, wechatUserByUserId } from 'api/admin/user/v1/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'userV1',
@@ -337,7 +337,8 @@
         },
         tableKey: 0,
         sexOptions: [],
-        yesNoOptions: [],
+        statusOptions: [],
+        paizhuOptions: [],
         deptList: [],
         deptChildList: [],
         deptTree: [],
@@ -357,22 +358,17 @@
     },
     created() {
       this.getList();
-      codeList('SEX_TYPE').then(res => {
-        this.sexOptions = res;
-      });
-      codeList('YES_NO').then(res => {
-        this.yesNoOptions = res;
+      baseInfo().then(res => {
+        this.statusOptions = res.data.statusList;
+        this.sexOptions = res.data.sexList;
+        this.paizhuOptions = res.data.paizhuList;
       });
       deptList('1').then(res => {
-        if (res && res.length > 0) {
-          this.deptList = res;
-        }
+          this.deptList = res.data;
       });
       deptList('').then(res => {
-        if (res && res.length > 0) {
-          this.deptTree = this.toTree(res);
+          this.deptTree = this.toTree(res.data);
           this.fuzeDeptTree = this.deptTree;
-        }
       });
       this.userManager_v1_btn_add = this.elements['userManager_v1:btn_edit'];
       this.userManager_v1_btn_del = this.elements['userManager_v1:btn_del'];

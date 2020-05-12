@@ -37,9 +37,9 @@ export function updateStatus(ids, status) {
   })
 }
 
-export function codeList(kindcode) {
+export function baseInfo() {
   return fetch({
-    url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
+    url: '/api/admin/dept/baseInfo',
     method: 'get'
   })
 }

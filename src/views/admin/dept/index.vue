@@ -63,7 +63,7 @@
         </el-form-item>
         <el-form-item label="是否启用" prop="status">
           <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
-            <el-option v-for="item in yesNoOptions" :key="item.codelistid" :label="item.codename" :value="item.codevalue"> </el-option>
+            <el-option v-for="item in statusOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-  import { page, getObj, delObj, saveObj, codeList, deptList, wechatDept, updateStatus } from 'api/admin/dept/index';
+  import { page, getObj, delObj, saveObj, baseInfo, deptList, wechatDept, updateStatus } from 'api/admin/dept/index';
   import { mapGetters } from 'vuex';
   export default {
     name: 'dept',
@@ -108,7 +108,7 @@
           create: '创建'
         },
         tableKey: 0,
-        yesNoOptions: [],
+        statusOptions: [],
         deptList: [],
         showFilter: true,
         checkedDept: [],
@@ -125,13 +125,8 @@
     },
     created() {
       this.getList();
-      codeList('YES_NO').then(res => {
-        this.yesNoOptions = res;
-      });
-      deptList('').then(res => {
-        if (res && res.length > 0) {
-          this.deptTree = this.toTree(res);
-        }
+      baseInfo().then(res => {
+        this.statusOptions = res.data.statusList;
       });
       this.deptManager_btn_edit = this.elements['deptManager:btn_edit'];
       this.deptManager_btn_del = this.elements['deptManager:btn_del'];

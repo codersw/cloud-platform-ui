@@ -8,7 +8,7 @@ export function page(query) {
   });
 }
 
-export function addObj(obj) {
+export function saveObj(obj) {
   return fetch({
     url: '/api/admin/applications',
     method: 'post',
@@ -30,17 +30,9 @@ export function delObj(id) {
   })
 }
 
-export function putObj(id, obj) {
+export function baseInfo() {
   return fetch({
-    url: '/api/admin/applications/' + id,
-    method: 'put',
-    data: obj
-  })
-}
-
-export function codeList(kindcode) {
-  return fetch({
-    url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
+    url: '/api/admin/applications/baseInfo',
     method: 'get'
   })
 }

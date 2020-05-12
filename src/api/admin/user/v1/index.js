@@ -74,10 +74,9 @@ export function wechatUserByUserId(id) {
   });
 }
 
-
-export function codeList(kindcode) {
+export function baseInfo() {
   return fetch({
-    url: '/api/admin/sysCodelist/listByKindcode/' + kindcode,
+    url: '/api/admin/user/v1/baseInfo',
     method: 'get'
   })
 }
