@@ -59,9 +59,7 @@
           <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
         </el-form-item>
         <el-form-item label="父级部门" prop="pid">
-          <el-select class="filter-item" filterable v-model="form.pid" placeholder="请选择父级部门">
-            <el-option v-for="item in deptList" :key="item.id" :label="item.name" :value="item.id"> </el-option>
-          </el-select>
+            <el-cascader :options="deptTree" :show-all-levels="false" :props="defaultProps" v-model="checkedDept" :size="'medium'" clearable placeholder="请选择父级部门" ref="deptTree"></el-cascader>
         </el-form-item>
         <el-form-item label="是否启用" prop="status">
           <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
@@ -113,7 +111,16 @@
         yesNoOptions: [],
         deptList: [],
         showFilter: true,
-        multipleSelection: []
+        checkedDept: [],
+        multipleSelection: [],
+        defaultProps: {
+          children: 'children',
+          label: 'name',
+          multiple: false,
+          checkStrictly: true,
+          value: 'id'
+        },
+        deptTree: [],
       }
     },
     created() {
@@ -122,7 +129,9 @@
         this.yesNoOptions = res;
       });
       deptList('').then(res => {
-        this.deptList = res;
+        if (res && res.length > 0) {
+          this.deptTree = this.toTree(res);
+        }
       });
       this.deptManager_btn_edit = this.elements['deptManager:btn_edit'];
       this.deptManager_btn_del = this.elements['deptManager:btn_del'];
@@ -136,7 +145,11 @@
     methods: {
       getList() {
         this.listLoading = true;
-        this.listQuery.pid = '1';
+        if (this.listQuery.name === '') {
+          this.listQuery.pid = '1';
+        } else {
+          this.listQuery.pid = '';
+        }
         page(this.listQuery).then(response => {
           this.list = response.data.rows;
           this.total = response.data.total;
@@ -224,6 +237,11 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
+            const deptNodes = set.deptTree.getCheckedNodes();
+            console.log(deptNodes);
+            if (deptNodes && deptNodes.length > 0) {
+              this.form.pid = deptNodes[0].value;
+            }
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
@@ -272,6 +290,30 @@
           pid : '',
           status : '',
         }
+      },
+      toTree(data) {
+        let dataList = [];
+        data.forEach(function (item) {
+          if (item.id !== 1) {
+            delete item.children;
+            dataList.push(item);
+          }
+        });
+        let map = {};
+        dataList.forEach(function (item) {
+          map[item.id] = item;
+        });
+        this.deptMap = map;
+        let result = [];
+        dataList.forEach(function (item) {
+          const parent = map[item.pid];
+          if (parent) {
+            (parent.children || ( parent.children = [] )).push(item);
+          } else {
+            result.push(item);
+          }
+        });
+        return result;
       }
     }
   }

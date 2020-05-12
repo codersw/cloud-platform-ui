@@ -409,7 +409,6 @@
         this.resetTemp();
       },
       handleUpdate(row) {
-        console.log(row)
         getObj(row.id).then(response => {
           this.form = response.data;
           this.form.sex = String(this.form.sex);
@@ -495,13 +494,11 @@
         set[formName].validate(valid => {
           if (valid) {
             const deptNodes = set.deptTree.getCheckedNodes();
-            console.log(deptNodes);
             if (deptNodes && deptNodes.length > 0) {
               this.form.department = deptNodes.map(e => e.value).join(',');
               this.form.departmentname = deptNodes.map(e => e.label).join(',');
             }
             const fuzeDeptNodes = set.fuzeDeptTree.getCheckedNodes();
-            console.log(fuzeDeptNodes);
             if (fuzeDeptNodes && fuzeDeptNodes.length > 0) {
               this.form.fuze = fuzeDeptNodes.map(e => e.value).join(',');
               this.form.fuzename = fuzeDeptNodes.map(e => e.label).join(',');
