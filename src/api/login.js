@@ -41,7 +41,8 @@ export function getMenus(token) {
 
 export function getAllMenus() {
   return fetch({
-    url: '/api/admin/user/front/menu/all',
+    //url: '/api/admin/user/front/menu/all',
+    url: '/api/admin/user/v1/front/menu/all',
     method: 'get'
   });
 }
