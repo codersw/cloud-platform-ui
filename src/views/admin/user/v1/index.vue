@@ -589,7 +589,7 @@
       changeChildDept() {
         deptList(this.listQuery.centerId).then(res => {
           this.listQuery.deptId = '';
-          this.deptChildList = res;
+          this.deptChildList = res.data;
         });
       },
       fomatDept() {
