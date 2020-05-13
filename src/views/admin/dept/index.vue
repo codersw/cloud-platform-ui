@@ -13,7 +13,7 @@
       </template>
     </div>
     <el-table lazy :data="list" row-key="id" border @selection-change="handleSelectionChange" ref="tableData"
-              :tree-props="{children: 'children', hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
+              :tree-props="{hasChildren: 'hasChildren'}" v-loading.body="listLoading" :load="getNodeData">
       <el-table-column type="selection" width="55px" align="center">
       </el-table-column>
       <el-table-column align="center" label="名称">
