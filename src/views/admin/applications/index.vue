@@ -69,6 +69,12 @@
         <el-form-item label="图标" prop="img">
           <el-input v-model="form.img" placeholder="请输入图标"></el-input>
         </el-form-item>
+        <el-form-item label="企业微信id" prop="wx_corpid">
+          <el-input v-model="form.wxCorpid" placeholder="请输入企业微信id"></el-input>
+        </el-form-item>
+        <el-form-item label="企业微信应用密钥" prop="wx_secret">
+          <el-input v-model="form.wxSecret" placeholder="请输入企业微信应用密钥"></el-input>
+        </el-form-item>
         <el-form-item label="启停用" prop="qyflag">
           <el-select class="filter-item" v-model="form.qyflag" placeholder="是否启用">
             <el-option v-for="item in qyflagOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
@@ -102,7 +108,9 @@
           databasename : "",
           databasepassword : "",
           databasecon : "",
-          qyflag : ""
+          qyflag : "",
+          wxCorpid: "",
+          wxSecret: ""
         },
         rules: {
           title: [
@@ -241,7 +249,7 @@
               this.getList();
               this.$notify({
                 title: '成功',
-                message: '创建成功',
+                message: '修改成功',
                 type: 'success',
                 duration: 2000
               });
@@ -263,7 +271,9 @@
           databasename : "",
           databasepassword : "",
           databasecon : "",
-          qyflag : ""
+          qyflag : "",
+          wxCorpid: "",
+          wxSecret: ""
         };
       }
     }
