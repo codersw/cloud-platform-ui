@@ -202,11 +202,9 @@
       },
       getNodeData(row, treeNode, resolve) {
         deptList(row.id).then(res => {
-          if(res && res.length > 0) {
             setTimeout(() => {
-              resolve(res);
+              resolve(res.data);
             }, 1000);
-          }
         });
       },
       handleSelectionChange(val) {
