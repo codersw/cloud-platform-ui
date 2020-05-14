@@ -1,3 +1,3 @@
 <template>
-    <iframe src='http://60.205.95.192:9411/zipkin' id='show' width='100%' height="780px" frameborder=0 name='showHere' ></iframe>
+    <iframe src='http://nw.sy-metro.com:9680/zipkin/' id='show' width='100%' height="780px" frameborder=0 name='showHere' ></iframe>
 </template>

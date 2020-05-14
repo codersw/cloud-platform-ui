@@ -156,7 +156,8 @@ export default {
 .login-container {
     @include relative;
     height: 100vh;
-    background-color: #2d3a4b;
+    //background-color: #2d3a4b;
+    background: url("~@/assets/login_backgroud.jpg") center center no-repeat;
     input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 1000px #293444 inset !important;
         -webkit-text-fill-color: #fff !important;

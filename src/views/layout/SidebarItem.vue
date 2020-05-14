@@ -1,6 +1,6 @@
 <template>
 	<div class='menu-wrapper'>
-	
+
 	<template v-for="item in routes">
 		<!-- <router-link v-if="item.children.length>0" :to="item.code+'/'+item.children[0].code">
 			<el-menu-item :index="item.code+'/'+item.children[0].code" class='submenu-title-noDropdown'>

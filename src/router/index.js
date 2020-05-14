@@ -167,5 +167,10 @@ export const asyncRouterMap = [{
     component: _import('monitor/sentinel/index'),
     name: '服务流量哨兵',
     authority: 'serviceSentinelManager'
+  }, {
+    path: 'serviceDruidManager',
+    component: _import('monitor/druid/index'),
+    name: '数据库源监控',
+    authority: 'serviceDruidManager'
   }]
 }];
