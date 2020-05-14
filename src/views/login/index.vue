@@ -1,5 +1,5 @@
 <template>
-<div class="login-container">
+<div class="login-container" :style="{backgroundImage: 'url(' + bg2 + ')' }">
   <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px" class="card-box login-form">
     <h3 class="title">系统登录</h3>
     <el-form-item prop="username">
@@ -27,7 +27,7 @@
 
 <script>
 import socialSign from './socialsignin';
-
+import Bg2 from '@/assets/login_backgroud.jpg'
 export default {
   components: {
     socialSign
@@ -42,6 +42,7 @@ export default {
       }
     };
     return {
+      bg2: Bg2,
       loginForm: {
         username: 'admin',
         password: 'admin'
@@ -76,7 +77,8 @@ export default {
           this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
             this.loading = false;
             this.$router.push({
-              path: '/'
+              //path: '/'
+               path: '/monitorManager/serviceMonitorManager'
             });
             // this.showDialog = true;
           }).catch(() => {
@@ -156,8 +158,7 @@ export default {
 .login-container {
     @include relative;
     height: 100vh;
-    //background-color: #2d3a4b;
-    background: url("~@/assets/login_backgroud.jpg") center center no-repeat;
+    background-color: #2d3a4b;
     input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0 1000px #293444 inset !important;
         -webkit-text-fill-color: #fff !important;
