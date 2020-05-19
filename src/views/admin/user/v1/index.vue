@@ -443,28 +443,32 @@
         });
       },
       handleWechatUserByUserId(row) {
-        this.listLoading = true;
-        wechatUserByUserId(row.id).then( () => {
-          this.listLoading = false;
-          this.$notify({
-            title: '成功',
-            message: '同步成功',
-            type: 'success',
-            duration: 2000
+        this.$confirm('此操作将同步微信用户, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          this.listLoading = true;
+          wechatUserByUserId(row.id).then( () => {
+            this.listLoading = false;
+            this.$notify({
+              title: '成功',
+              message: '同步成功',
+              type: 'success',
+              duration: 2000
+            });
           });
         });
       },
       handleWechatUser() {
-        this.listLoading = true;
-        wechatUser().then( () => {
-          this.getList();
-          this.$notify({
-            title: '成功',
-            message: '同步成功',
-            type: 'success',
-            duration: 2000
+        this.$confirm('此操作将同步微信用户, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          this.listLoading = true;
+          wechatUser().then( () => {
+            this.getList();
+            this.$notify({
+              title: '成功',
+              message: '同步成功',
+              type: 'success',
+              duration: 2000
+            });
           });
-        });
+        })
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;

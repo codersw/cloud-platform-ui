@@ -30,7 +30,7 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
           '/oauth': {
-            target: 'http://nw.sy-metro.com:9680',
+            target: 'http://localhost:8765',
             pathRewrite: {
               '^/oauth': '/jwt'
             },

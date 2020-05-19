@@ -189,14 +189,16 @@
         });
       },
       handleWechatDept() {
-        this.listLoading = true;
-        wechatDept().then(() => {
-          this.getList();
-          this.$notify({
-            title: '成功',
-            message: '同步成功',
-            type: 'success',
-            duration: 2000
+        this.$confirm('此操作将同步微信部门, 是否继续?', '提示', { confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'}).then(() => {
+          this.listLoading = true;
+          wechatDept().then(() => {
+            this.getList();
+            this.$notify({
+              title: '成功',
+              message: '同步成功',
+              type: 'success',
+              duration: 2000
+            });
           });
         });
       },
