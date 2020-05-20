@@ -42,8 +42,10 @@ export const constantRouterMap = [{
   name: '首页',
   hidden: true,
   children: [{
-    path: 'dashboard',
-    component: _import('dashboard/index')
+   /* path: 'dashboard',
+    component: _import('dashboard/index')*/
+    path: 'serviceMonitorManager',
+    component: _import('monitor/service/index')
   }]
 },
 {
