@@ -15,13 +15,13 @@
 			</template>
 			<template v-for="child in item.children">
 				<sidebar-item class='nest-menu' v-if='child.children&&child.children.length>0' :routes='[child]' :key="child.name"> </sidebar-item>
-				<a target="_blank"  v-if="child.href!=null&&child.href.indexOf('http')==0" :href="child.href" :key="child.name">
+				<a target="_blank"  v-if="child.href!=null&&child.href.indexOf('_blank')==0" :href="child.href.replace('_blank','')" :key="child.name">
 					<el-menu-item :index="'/'+item.code+'/'+child.code">
 						<icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg>
 						<span>{{child.title}}</span>
 					</el-menu-item>
 				</a>
-				<router-link v-if="child.href!=null&&child.href.indexOf('http')!=0&&child.type!='dirt'"  :to="'/'+item.code+'/'+child.code" :key="child.name">
+				<router-link v-if="child.href!=null&&child.href.indexOf('_blank')!=0&&child.type!='dirt'" :to="{path:'\/'+ item.code + '\/'+ child.code, query: {'href': child.href}}" :key="child.name">
 					<el-menu-item :index="'/'+item.code+'/'+child.code">
 						<icon-svg v-if='child.icon' :icon-class="child.icon"></icon-svg>
 						<span>{{child.title}}</span>

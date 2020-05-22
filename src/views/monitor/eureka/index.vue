@@ -1,3 +1,12 @@
 <template>
-    <iframe src='http://nw.sy-metro.com:9680/nacos/' id='show' width='100%' height="780px" frameborder=0 name='showHere' ></iframe>
+  <vue-iframe :src="$route.query.href"></vue-iframe>
 </template>
+<script>
+  import vueIframe from '../../../components/iframe/index';
+  export default {
+    components: {
+      vueIframe
+    },
+    name: "eureka"
+  }
+</script>

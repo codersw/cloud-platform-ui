@@ -1,3 +1,17 @@
 <template>
-    <iframe src='http://nw.sy-metro.com:9061/' id='show' width='100%' height="780px" frameborder=0 name='showHere' ></iframe>
+  <vue-iframe :src="href"></vue-iframe>
 </template>
+<script>
+  import vueIframe from '../../../components/iframe/index';
+  export default {
+    components: {
+      vueIframe
+    },
+    name: "service",
+    data() {
+      return {
+        href: "http://nw.sy-metro.com:9061/wallboard"
+      }
+    }
+  }
+</script>
