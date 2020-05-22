@@ -1,7 +1,7 @@
 <template>
 
 <el-menu class="navbar" mode="horizontal">
-  
+
   <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
   <levelbar></levelbar>
   <tabs-view></tabs-view>

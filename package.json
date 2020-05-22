@@ -26,7 +26,7 @@
     "mockjs": "1.0.1-beta3",
     "normalize.css": "3.0.2",
     "nprogress": "0.2.0",
-    "screenfull": "3.2.2",
+    "screenfull": "^5.0.2",
     "showdown": "1.7.1",
     "simplemde": "1.11.2",
     "sortablejs": "1.5.1",
