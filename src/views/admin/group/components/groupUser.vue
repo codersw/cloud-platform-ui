@@ -2,12 +2,12 @@
 <el-form label-width="80px">
   <el-form-item label="群主|领导">
     <el-select v-model="leaders" multiple filterable remote placeholder="请输入关键词" :remote-method="remoteLeaderMethod" :loading="loading">
-      <el-option v-for="item in lItems" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+      <el-option v-for="item in lItems" :key="item.id" :label="item.username" :value="item.id"> </el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="组员|下属">
     <el-select v-model="members" multiple filterable remote placeholder="请输入关键词" :remote-method="remoteMemberMethod" :loading="loading">
-      <el-option v-for="item in mItems" :key="item.id" :label="item.name" :value="item.id"> </el-option>
+      <el-option v-for="item in mItems" :key="item.id" :label="item.username" :value="item.id"> </el-option>
     </el-select>
   </el-form-item>
   <el-form-item>
@@ -57,7 +57,7 @@ export default {
         this.loading = true;
         this.loading = false;
         page({
-          name: query
+          username: query
         }).then(response => {
           this.mItems = response.data.rows;
           this.total = response.data.total;
@@ -72,7 +72,7 @@ export default {
         this.loading = true;
         this.loading = false;
         page({
-          name: query
+          username: query
         }).then(response => {
           this.lItems = response.data.rows;
           this.total = response.data.total;

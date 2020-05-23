@@ -370,9 +370,9 @@
           this.deptTree = this.toTree(res.data);
           this.fuzeDeptTree = this.deptTree;
       });
-      this.userManager_v1_btn_add = this.elements['userManager_v1:btn_edit'];
-      this.userManager_v1_btn_del = this.elements['userManager_v1:btn_del'];
-      this.userManager_v1_btn_edit = this.elements['userManager_v1:btn_add'];
+      this.userManager_btn_add = this.elements['userManager:btn_edit'];
+      this.userManager_btn_del = this.elements['userManager:btn_del'];
+      this.userManager_btn_edit = this.elements['userManager:btn_add'];
     },
     computed: {
       ...mapGetters([
