@@ -1,8 +1,8 @@
 {
-  "name": "AG-Admin",
+  "name": "msc-admin",
   "version": "1.2.0",
-  "description": "A Vue.js admin",
-  "author": "Ace<463540703@qq.com>",
+  "description": "",
+  "author": "",
   "license": "MIT",
   "private": true,
   "scripts": {
