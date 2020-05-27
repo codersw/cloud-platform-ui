@@ -161,5 +161,15 @@ export const asyncRouterMap = [{
     component: _import('monitor/druid/index'),
     name: '数据库源监控',
     authority: 'serviceDruidManager'
+  }, {
+    path: 'rabbitMQManager',
+    component: _import('monitor/rabbitMQ/index'),
+    name: '查看消息队列',
+    authority: 'rabbitMQManager'
+  }, {
+    path: 'docManager',
+    component: _import('monitor/doc/index'),
+    name: '查看接口文档',
+    authority: 'docManager'
   }]
 }];
