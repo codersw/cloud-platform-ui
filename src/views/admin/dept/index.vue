@@ -267,8 +267,7 @@
         set[formName].validate(valid => {
           if (valid) {
             this.dialogFormVisible = false;
-            this.form.password = undefined;
-            saveObj(this.form.id, this.form).then(() => {
+            saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
               this.$notify({
