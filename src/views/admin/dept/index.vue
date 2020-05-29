@@ -180,6 +180,7 @@
       handleUpdate(row) {
         getObj(row.id).then(response => {
           this.form = response.data;
+          this.form.pid = parseInt(this.form.pid);
           this.dialogFormVisible = true;
           this.dialogStatus = 'update';
         });
