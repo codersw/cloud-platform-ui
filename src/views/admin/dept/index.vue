@@ -150,7 +150,7 @@
           this.total = response.data.total;
           this.listLoading = false;
         })
-        deptList().then(res => {
+        deptList('1').then(res => {
           this.deptTree = res.data
         });
       },
