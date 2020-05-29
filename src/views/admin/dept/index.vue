@@ -59,7 +59,14 @@
           <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
         </el-form-item>
         <el-form-item label="父级部门" prop="pid">
-            <el-cascader :options="deptTree" :show-all-levels="false" :props="defaultProps" v-model="checkedDept" :size="'medium'" clearable placeholder="请选择父级部门" ref="deptTree"></el-cascader>
+          <el-select v-model="form.pid" filterable placeholder="请选择父级部门">
+            <el-option
+              v-for="item in deptTree"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="是否启用" prop="status">
           <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
@@ -235,11 +242,6 @@
         const set = this.$refs;
         set[formName].validate(valid => {
           if (valid) {
-            const deptNodes = set.deptTree.getCheckedNodes();
-            console.log(deptNodes);
-            if (deptNodes && deptNodes.length > 0) {
-              this.form.pid = deptNodes[0].value;
-            }
             saveObj(this.form).then(() => {
               this.dialogFormVisible = false;
               this.getList();
