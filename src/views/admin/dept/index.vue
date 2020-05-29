@@ -62,7 +62,7 @@
           <el-select v-model="form.pid" filterable placeholder="请选择父级部门">
             <el-option
               v-for="item in deptTree"
-              :key="item.id"
+              :key="item.pid"
               :label="item.name"
               :value="item.id">
             </el-option>
