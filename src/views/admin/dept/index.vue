@@ -53,13 +53,13 @@
     <div v-show="!listLoading" class="pagination-container">
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page" :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
     </div>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="30%">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-        <el-form-item label="部门名称" prop="name">
+        <el-form-item label="部门名称" prop="name" style="width: 500px">
           <el-input v-model="form.name" placeholder="请输入部门名称"></el-input>
         </el-form-item>
-        <el-form-item label="父级部门" prop="pid">
-          <el-select v-model="form.pid" filterable placeholder="请选择父级部门">
+        <el-form-item label="父级部门" prop="pid" style="width: 500px">
+          <el-select v-model="form.pid" filterable placeholder="请选择父级部门" style="width: 100%">
             <el-option
               v-for="item in deptTree"
               :key="item.id"
@@ -68,8 +68,8 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否启用" prop="status">
-          <el-select class="filter-item" v-model="form.status" placeholder="是否启用">
+        <el-form-item label="是否启用" prop="status" style="width: 500px">
+          <el-select class="filter-item" v-model="form.status" placeholder="是否启用" style="width: 100%">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.name" :value="item.value"> </el-option>
           </el-select>
         </el-form-item>
