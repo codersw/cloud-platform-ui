@@ -363,10 +363,10 @@
         this.sexOptions = res.data.sexList;
         this.paizhuOptions = res.data.paizhuList;
       });
-      deptList('1').then(res => {
+      deptList(1).then(res => {
           this.deptList = res.data;
       });
-      deptList('').then(res => {
+      deptList(0).then(res => {
           this.deptTree = this.toTree(res.data);
           this.fuzeDeptTree = this.deptTree;
       });
